@@ -1,4 +1,6 @@
 ﻿using Catalog.DAL.Data;
+using Catalog.DAL.Repositories.Implementations;
+using Catalog.DAL.Repositories.Interfaces;
 
 namespace Catalog.API.Extensions
 {
@@ -12,6 +14,15 @@ namespace Catalog.API.Extensions
                 ?? throw new InvalidOperationException($"Строка подключения '{connectionName}' не найдена в конфигурации.");
 
             services.AddSingleton<IDbConnectionFactory>(new NpgConnectionFactory(connectionString));
+            return services;
+        }
+
+        public static IServiceCollection AddRepositories(this IServiceCollection services) 
+        {
+            services.AddScoped<ICatalogItemRepository, CatalogItemRepository>();
+            services.AddScoped<ICatalogBrandRepository, CatalogBrandRepository>();
+            services.AddScoped<ICatalogCategoryRepository, CatalogCategoryRepository>();
+
             return services;
         }
     }
