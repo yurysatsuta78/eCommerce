@@ -1,6 +1,6 @@
 ﻿namespace Catalog.DAL.Models
 {
-    internal class CatalogItemDb
+    public class CatalogItemDb
     {
         public Guid Id { get; set; }
         public string Name { get; set; } = default!;
