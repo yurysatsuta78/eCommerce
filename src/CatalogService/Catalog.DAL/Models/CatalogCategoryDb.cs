@@ -1,8 +1,9 @@
-﻿namespace Catalog.DAL.Models
+﻿using Catalog.DAL.Models.Base;
+
+namespace Catalog.DAL.Models
 {
-    public class CatalogCategoryDb
+    public class CatalogCategoryDb : Entity
     {
-        public Guid Id { get; set; }
         public string Name { get; set; } = default!;
     }
 }
