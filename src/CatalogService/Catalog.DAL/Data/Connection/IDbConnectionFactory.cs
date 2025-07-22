@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace Catalog.DAL.Data
+namespace Catalog.DAL.Data.Connection
 {
     public interface IDbConnectionFactory
     {

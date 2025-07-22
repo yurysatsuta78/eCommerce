@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using Npgsql;
 
-namespace Catalog.DAL.Data
+namespace Catalog.DAL.Data.Connection
 {
     public class NpgConnectionFactory : IDbConnectionFactory
     {

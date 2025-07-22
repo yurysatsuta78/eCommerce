@@ -1,8 +1,9 @@
-﻿namespace Catalog.DAL.Repositories.Interfaces
+﻿using Catalog.DAL.Models.Base;
+
+namespace Catalog.DAL.Repositories.Interfaces
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository<T> where T : Entity
     {
-        Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken);
         Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
         Task AddAsync(T entity, CancellationToken cancellationToken);
         Task UpdateAsync(T entity, CancellationToken cancellationToken);

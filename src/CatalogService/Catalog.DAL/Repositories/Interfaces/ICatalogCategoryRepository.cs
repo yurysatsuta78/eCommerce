@@ -1,8 +1,7 @@
 ﻿using Catalog.DAL.Models;
+using Catalog.DAL.QueryParams;
 
 namespace Catalog.DAL.Repositories.Interfaces
 {
-    public interface ICatalogCategoryRepository : IRepository<CatalogCategoryDb>
-    {
-    }
+    public interface ICatalogCategoryRepository : IFilteredRepository<CatalogCategoryQueryParams, CatalogCategoryDb>;
 }

@@ -1,5 +1,8 @@
 ﻿using Catalog.DAL.Data;
+using Catalog.DAL.Data.Connection;
 using Catalog.DAL.Models;
+using Catalog.DAL.QueryBuilders;
+using Catalog.DAL.QueryParams;
 using Catalog.DAL.Repositories.Interfaces;
 using Dapper;
 
@@ -7,14 +10,34 @@ namespace Catalog.DAL.Repositories.Implementations
 {
     public class CatalogBrandRepository : BaseRepository<CatalogBrandDb>, ICatalogBrandRepository
     {
-        protected override string TableName => "catalog_brand";
+        protected override string TableName => TablesMetadata.CatalogBrand.Name;
 
         public CatalogBrandRepository(IDbConnectionFactory connectionFactory) : base(connectionFactory) { }
+
+        public async Task<IEnumerable<CatalogBrandDb>> GetPaginatedAsync(CatalogBrandQueryParams filter, CancellationToken cancellationToken)
+        {
+            var builder = new CatalogBrandQueryBuilder()
+                .NameContains(filter.Name);
+
+            var (whereClause, parameters) = builder.Build(filter.PageNumber, filter.PageSize);
+
+            var sql = $"""
+            SELECT id, name
+            FROM {TableName}
+            {whereClause}
+            LIMIT @Limit OFFSET @Offset
+            """;
+
+            using var connection = _connectionFactory.CreateConnection();
+            return await connection.QueryAsync<CatalogBrandDb>(
+                new CommandDefinition(sql, parameters, cancellationToken: cancellationToken)
+            );
+        }
 
         public override async Task AddAsync(CatalogBrandDb entity, CancellationToken cancellationToken)
         {
             var sql = $"""
-            INSERT INTO {TableName} (Id, Name)
+            INSERT INTO {TableName} (id, name)
             VALUES (@Id, @Name)
             """;
 
@@ -26,8 +49,8 @@ namespace Catalog.DAL.Repositories.Implementations
         {
             var sql = $"""
             UPDATE {TableName}
-            SET Name = @Name
-            WHERE Id = @Id
+            SET name = @Name
+            WHERE id = @Id
             """;
 
             using var connection = _connectionFactory.CreateConnection();

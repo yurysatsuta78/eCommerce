@@ -1,4 +1,4 @@
-﻿using Catalog.DAL.Data;
+﻿using Catalog.DAL.Data.Connection;
 using Catalog.DAL.Repositories.Implementations;
 using Catalog.DAL.Repositories.Interfaces;
 
