@@ -1,8 +1,9 @@
-﻿namespace Catalog.DAL.Models
+﻿using Catalog.DAL.Models.Base;
+
+namespace Catalog.DAL.Models
 {
-    public class CatalogItemDb
+    public class CatalogItemDb : Entity
     {
-        public Guid Id { get; set; }
         public string Name { get; set; } = default!;
         public string? Description { get; set; }
         public decimal Price { get; set; }
