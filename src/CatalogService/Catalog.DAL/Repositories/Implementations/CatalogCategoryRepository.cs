@@ -39,7 +39,7 @@ namespace Catalog.DAL.Repositories.Implementations
             var builder = new CatalogCategoryQueryBuilder()
                 .NameContains(filter.Name);
 
-            var (whereClause, parameters) = builder.Build(filter.PageNumber, filter.PageSize);
+            var (whereClause, parameters) = builder.Build();
 
             var sql = $"""
             SELECT COUNT(*)
