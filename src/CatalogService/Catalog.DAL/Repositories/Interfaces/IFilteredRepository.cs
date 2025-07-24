@@ -8,5 +8,6 @@ namespace Catalog.DAL.Repositories.Interfaces
         where TFilter : FilterParams
     {
         public Task<IEnumerable<TEntity>> GetPaginatedAsync(TFilter filter, CancellationToken cancellationToken);
+        public Task<int> GetCountAsync(TFilter filter, CancellationToken cancellationToken);
     }
 }
