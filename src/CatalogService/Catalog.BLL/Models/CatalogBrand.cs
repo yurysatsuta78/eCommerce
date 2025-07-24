@@ -5,18 +5,20 @@
         public Guid Id { get; }
         public string Name { get; private set; }
 
-        private CatalogBrand(string name)
+        private CatalogBrand() { }
+
+        private CatalogBrand(Guid id, string name)
         {
-            Id = Guid.NewGuid();
+            Id = id;
             Name = name;
         }
 
-        public static CatalogBrand Create(string name)
+        public static CatalogBrand Create(Guid id, string name)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("Name cannot be empty.");
 
-            return new CatalogBrand(name);
+            return new CatalogBrand(id, name);
         }
 
         public void ChangeName(string? name)

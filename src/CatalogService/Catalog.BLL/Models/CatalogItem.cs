@@ -12,10 +12,12 @@
         public CatalogBrand CatalogBrand { get; private set; }
         public CatalogCategory CatalogCategory { get; private set; }
 
-        private CatalogItem(string name, string description, decimal price, int restockThreshold,
+        private CatalogItem() { }
+
+        private CatalogItem(Guid id, string name, string description, decimal price, int restockThreshold,
             int maxStockThreshold, CatalogBrand brand, CatalogCategory category)
         {
-            Id = Guid.NewGuid();
+            Id = id;
             Name = name;
             Description = description;
             Price = price;
@@ -27,6 +29,7 @@
         }
 
         public static CatalogItem Create(
+            Guid id,
             string name,
             string description,
             decimal price,
@@ -51,6 +54,7 @@
                 throw new ArgumentException("Restock threshold cannot exceed max threshold.");
 
             return new CatalogItem(
+                id,
                 name.Trim(),
                 description.Trim(),
                 price,

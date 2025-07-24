@@ -9,7 +9,8 @@ services.AddSwaggerGen();
 
 services
     .AddDatabase(builder.Configuration)
-    .AddRepositories();
+    .AddRepositories()
+    .AddAutomapperProfiles();
 
 var app = builder.Build();
 

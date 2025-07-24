@@ -5,18 +5,20 @@
         public Guid Id { get; }
         public string Name { get; private set; }
 
-        private CatalogCategory(string name) 
+        private CatalogCategory() { }
+
+        private CatalogCategory(Guid id, string name) 
         {
-            Id = Guid.NewGuid();
+            Id = id;
             Name = name;
         }
 
-        public static CatalogCategory Create(string name) 
+        public static CatalogCategory Create(Guid id, string name) 
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("Name cannot be empty.");
 
-            return new CatalogCategory(name);
+            return new CatalogCategory(id, name);
         }
 
         public void ChangeName(string? name)

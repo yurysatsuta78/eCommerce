@@ -1,6 +1,8 @@
-﻿using Catalog.DAL.Data.Connection;
+﻿using Catalog.BLL.MappingProfiles.CatalogItemMappingProfiles;
+using Catalog.DAL.Data.Connection;
 using Catalog.DAL.Repositories.Implementations;
 using Catalog.DAL.Repositories.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Catalog.API.Extensions
 {
@@ -22,6 +24,13 @@ namespace Catalog.API.Extensions
             services.AddScoped<ICatalogItemRepository, CatalogItemRepository>();
             services.AddScoped<ICatalogBrandRepository, CatalogBrandRepository>();
             services.AddScoped<ICatalogCategoryRepository, CatalogCategoryRepository>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddAutomapperProfiles(this IServiceCollection services)
+        {
+            services.AddAutoMapper(assembly => assembly.AddMaps(typeof(CatalogItemDbDomainProfile).Assembly));
 
             return services;
         }
