@@ -33,11 +33,9 @@ namespace Catalog.DAL.Repositories.Implementations
             var sql = $"""
             SELECT 
               {itemAlias}.id, {itemAlias}.name, {itemAlias}.description, {itemAlias}.price,
-              {itemAlias}.picture_file_name AS {nameof(CatalogItemDb.PictureFileName)},
               {itemAlias}.available_stock AS {nameof(CatalogItemDb.AvailableStock)},
               {itemAlias}.restock_threshold AS {nameof(CatalogItemDb.RestockThreshold)},
               {itemAlias}.max_stock_threshold AS {nameof(CatalogItemDb.MaxStockThreshold)},
-              {itemAlias}.on_order AS {nameof(CatalogItemDb.OnOrder)},
               {itemAlias}.catalog_brand_id AS {nameof(CatalogItemDb.CatalogBrandId)},
               {itemAlias}.catalog_category_id AS {nameof(CatalogItemDb.CatalogCategoryId)},
               {brandAlias}.id AS Id, {brandAlias}.name,
@@ -67,11 +65,9 @@ namespace Catalog.DAL.Repositories.Implementations
             var sql = $"""
             SELECT 
               {itemAlias}.id, {itemAlias}.name, {itemAlias}.description, {itemAlias}.price,
-              {itemAlias}.picture_file_name AS {nameof(CatalogItemDb.PictureFileName)},
               {itemAlias}.available_stock AS {nameof(CatalogItemDb.AvailableStock)},
               {itemAlias}.restock_threshold AS {nameof(CatalogItemDb.RestockThreshold)},
               {itemAlias}.max_stock_threshold AS {nameof(CatalogItemDb.MaxStockThreshold)},
-              {itemAlias}.on_order AS {nameof(CatalogItemDb.OnOrder)},
               {itemAlias}.catalog_brand_id AS {nameof(CatalogItemDb.CatalogBrandId)},
               {itemAlias}.catalog_category_id AS {nameof(CatalogItemDb.CatalogCategoryId)},
               {brandAlias}.id AS Id, {brandAlias}.name,
@@ -79,7 +75,7 @@ namespace Catalog.DAL.Repositories.Implementations
             FROM {TableName} {itemAlias}
             INNER JOIN {TablesMetadata.CatalogBrand.Name} {brandAlias} ON {itemAlias}.catalog_brand_id = {brandAlias}.id
             INNER JOIN {TablesMetadata.CatalogCategory.Name} {categoryAlias} ON {itemAlias}.catalog_category_id = {categoryAlias}.id
-            WHERE {itemAlias}.id = @Id
+            WHERE {itemAlias}.id = @{nameof(CatalogItemDb.Id)}
             """;
 
             using var connection = _connectionFactory.CreateConnection();
@@ -100,10 +96,12 @@ namespace Catalog.DAL.Repositories.Implementations
         public override async Task AddAsync(CatalogItemDb entity, CancellationToken cancellationToken)
         {
             var sql = $"""
-            INSERT INTO {TableName} (id, name, description, price, picture_file_name, available_stock, restock_threshold,
-                max_stock_threshold, on_order, catalog_brand_id, catalog_category_id)
-            VALUES (@Id, @Name, @Description, @Price, @PictureFileName, @AvailableStock, @RestockThreshold,
-                @MaxStockThreshold, @OnOrder, @CatalogBrandId, @CatalogCategoryId)
+            INSERT INTO {TableName} (id, name, description, price, available_stock, restock_threshold,
+                max_stock_threshold, catalog_brand_id, catalog_category_id)
+            VALUES (@{nameof(CatalogItemDb.Id)}, @{nameof(CatalogItemDb.Name)}, @{nameof(CatalogItemDb.Description)}, 
+                @{nameof(CatalogItemDb.Price)}, @{nameof(CatalogItemDb.AvailableStock)}, @{nameof(CatalogItemDb.RestockThreshold)},
+                @{nameof(CatalogItemDb.MaxStockThreshold)}, @{nameof(CatalogItemDb.CatalogBrandId)}, @{nameof(CatalogItemDb.CatalogCategoryId)}
+            )
             """;
 
             using var connection = _connectionFactory.CreateConnection();
@@ -116,17 +114,15 @@ namespace Catalog.DAL.Repositories.Implementations
         {
             var sql = $"""
             UPDATE {TableName} SET
-                name = @Name,
-                description = @Description,
-                price = @Price,
-                picture_file_name = @PictureFileName,
-                available_stock = @AvailableStock,
-                restock_threshold = @RestockThreshold,
-                max_stock_threshold = @MaxStockThreshold,
-                on_order = @OnOrder,
-                catalog_brand_id = @CatalogBrandId,
-                catalog_category_id = @CatalogCategoryId
-            WHERE id = @Id
+                name = @{nameof(CatalogItemDb.Name)},
+                description = @{nameof(CatalogItemDb.Description)},
+                price = @{nameof(CatalogItemDb.Price)},
+                available_stock = @{nameof(CatalogItemDb.AvailableStock)},
+                restock_threshold = @{nameof(CatalogItemDb.RestockThreshold)},
+                max_stock_threshold = @{nameof(CatalogItemDb.MaxStockThreshold)},
+                catalog_brand_id = @{nameof(CatalogItemDb.CatalogBrandId)},
+                catalog_category_id = @{nameof(CatalogItemDb.CatalogCategoryId)}
+            WHERE id = @{nameof(CatalogItemDb.Id)}
             """;
 
             using var connection = _connectionFactory.CreateConnection();
