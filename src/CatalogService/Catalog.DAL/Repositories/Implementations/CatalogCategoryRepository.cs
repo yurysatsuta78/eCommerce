@@ -38,7 +38,7 @@ namespace Catalog.DAL.Repositories.Implementations
         {
             var sql = $"""
             INSERT INTO {TableName} (id, name)
-            VALUES (@Id, @Name)
+            VALUES (@{nameof(CatalogCategoryDb.Id)}, @{nameof(CatalogCategoryDb.Name)})
             """;
 
             using var connection = _connectionFactory.CreateConnection();
@@ -49,8 +49,8 @@ namespace Catalog.DAL.Repositories.Implementations
         {
             var sql = $"""
             UPDATE {TableName}
-            SET name = @Name
-            WHERE id = @Id
+            SET name = @{nameof(CatalogCategoryDb.Name)}
+            WHERE id = @{nameof(CatalogCategoryDb.Id)}
             """;
 
             using var connection = _connectionFactory.CreateConnection();
