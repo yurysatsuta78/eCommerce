@@ -70,7 +70,7 @@ namespace Catalog.DAL.Repositories.Implementations
                 .ByCategory(filter.CategoryId)
                 .ByBrand(filter.BrandId);
 
-            var (whereClause, parameters) = builder.Build(filter.PageNumber, filter.PageSize);
+            var (whereClause, parameters) = builder.Build();
 
             var sql = $"""
             SELECT COUNT(*)

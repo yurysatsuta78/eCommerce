@@ -7,7 +7,7 @@ namespace Catalog.DAL.QueryParams
         public string? Name { get; init; }
         public decimal? MinPrice { get; init; }
         public decimal? MaxPrice { get; init; }
-        public bool InStockOnly { get; init; } = false;
+        public bool? InStockOnly { get; init; }
         public Guid? BrandId { get; init; }
         public Guid? CategoryId { get; init; }
     }
