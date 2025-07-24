@@ -1,0 +1,147 @@
+﻿namespace Catalog.BLL.Models
+{
+    public class CatalogItem
+    {
+        public Guid Id { get; }
+        public string Name { get; private set; }
+        public string Description { get; private set; }
+        public decimal Price { get; private set; }
+        public string PictureFileName { get; private set; }
+        public int AvailableStock { get; private set; }
+        public int RestockThreshold { get; private set; }
+        public int MaxStockThreshold { get; private set; }
+        public CatalogBrand CatalogBrand { get; private set; }
+        public CatalogCategory CatalogCategory { get; private set; }
+
+        private CatalogItem(string name, string description, decimal price, string pictureFileName, int restockThreshold,
+            int maxStockThreshold, CatalogBrand brand, CatalogCategory category)
+        {
+            Id = Guid.NewGuid();
+            Name = name;
+            Description = description;
+            Price = price;
+            PictureFileName = pictureFileName;
+            AvailableStock = 0;
+            RestockThreshold = restockThreshold;
+            MaxStockThreshold = maxStockThreshold;
+            CatalogBrand = brand;
+            CatalogCategory = category;
+        }
+
+        public static CatalogItem Create(
+            string name,
+            string description,
+            decimal price,
+            string pictureFileName,
+            int restockThreshold,
+            int maxStockThreshold,
+            CatalogBrand brand,
+            CatalogCategory category)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException("Name cannot be empty.");
+
+            if (string.IsNullOrWhiteSpace(description))
+                throw new ArgumentException("Description cannot be empty.");
+
+            if (price <= 0)
+                throw new ArgumentException("Price cannot be negative.");
+
+            if (restockThreshold < 0 || maxStockThreshold < 0)
+                throw new ArgumentException("Thresholds must be non-negative.");
+
+            if (restockThreshold > maxStockThreshold)
+                throw new ArgumentException("Restock threshold cannot exceed max threshold.");
+
+            return new CatalogItem(
+                name.Trim(),
+                description.Trim(),
+                price,
+                pictureFileName,
+                restockThreshold,
+                maxStockThreshold,
+                brand,
+                category);
+        }
+
+        public void ChangeName(string? name)
+        {
+            if (string.IsNullOrWhiteSpace(name)) { return; }
+
+            Name = name.Trim();
+        }
+
+        public void ChangeDescription(string? description)
+        {
+            if (string.IsNullOrWhiteSpace(description)) { return; }
+
+            Description = description.Trim();
+        }
+
+        public void ChangePrice(decimal? price)
+        {
+            if (price is null) { return; }
+
+            if (price < 0) { throw new ArgumentException("Price cannot be negative."); }
+
+            Price = price.Value;
+        }
+
+        public void ChangePicture(string? pictureFileName)
+        {
+            if (string.IsNullOrWhiteSpace(pictureFileName)) { return; }
+
+            PictureFileName = pictureFileName.Trim();
+        }
+
+        public void ChangeBrand(CatalogBrand? brand)
+        {
+            if (brand is null) { return; }
+
+            CatalogBrand = brand;
+        }
+
+        public void ChangeCategory(CatalogCategory? category)
+        {
+            if (category is null) { return; }
+
+            CatalogCategory = category;
+        }
+
+        public int RemoveStock(int quantityDesired)
+        {
+            if (AvailableStock == 0)
+            {
+                throw new InvalidOperationException($"Empty stock, product item {Name} is sold out.");
+            }
+
+            if (quantityDesired <= 0)
+            {
+                throw new ArgumentException("Item units desired should be greater than zero.");
+            }
+
+            int removed = Math.Min(quantityDesired, AvailableStock);
+            AvailableStock -= removed;
+            return removed;
+        }
+
+        public int AddStock(int quantity)
+        {
+            if (quantity <= 0)
+            {
+                throw new ArgumentException("Item units to add must be greater than zero.");
+            }
+
+            int spaceLeft = MaxStockThreshold - AvailableStock;
+
+            if (spaceLeft <= 0)
+            {
+                return 0;
+            }
+
+            int toAdd = Math.Min(quantity, spaceLeft);
+            AvailableStock += toAdd;
+            return toAdd;
+        }
+    }
+}
