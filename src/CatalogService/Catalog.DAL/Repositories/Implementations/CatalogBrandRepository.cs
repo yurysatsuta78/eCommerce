@@ -34,6 +34,23 @@ namespace Catalog.DAL.Repositories.Implementations
             );
         }
 
+        public async Task<int> GetCountAsync(CatalogBrandQueryParams filter, CancellationToken cancellationToken)
+        {
+            var builder = new CatalogBrandQueryBuilder()
+                .NameContains(filter.Name);
+
+            var (whereClause, parameters) = builder.Build(filter.PageNumber, filter.PageSize);
+
+            var sql = $"""
+            SELECT COUNT(*)
+            FROM {TableName}
+            {whereClause}
+            """;
+
+            using var connection = _connectionFactory.CreateConnection();
+            return await connection.ExecuteScalarAsync<int>(new CommandDefinition(sql, parameters, cancellationToken: cancellationToken));
+        }
+
         public override async Task AddAsync(CatalogBrandDb entity, CancellationToken cancellationToken)
         {
             var sql = $"""

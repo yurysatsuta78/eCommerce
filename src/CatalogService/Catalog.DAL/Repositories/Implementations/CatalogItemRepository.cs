@@ -60,6 +60,30 @@ namespace Catalog.DAL.Repositories.Implementations
             );
         }
 
+        public async Task<int> GetCountAsync(CatalogItemQueryParams filter, CancellationToken cancellationToken)
+        {
+            var builder = new CatalogItemQueryBuilder()
+                .NameContains(filter.Name)
+                .MinPrice(filter.MinPrice)
+                .MaxPrice(filter.MaxPrice)
+                .InStockOnly(filter.InStockOnly)
+                .ByCategory(filter.CategoryId)
+                .ByBrand(filter.BrandId);
+
+            var (whereClause, parameters) = builder.Build(filter.PageNumber, filter.PageSize);
+
+            var sql = $"""
+            SELECT COUNT(*)
+            FROM {TableName} {itemAlias}
+            INNER JOIN {TablesMetadata.CatalogBrand.Name} {brandAlias} ON {itemAlias}.catalog_brand_id = {brandAlias}.id
+            INNER JOIN {TablesMetadata.CatalogCategory.Name} {categoryAlias} ON {itemAlias}.catalog_category_id = {categoryAlias}.id
+            {whereClause}
+            """;
+
+            using var connection = _connectionFactory.CreateConnection();
+            return await connection.ExecuteScalarAsync<int>(new CommandDefinition(sql, parameters, cancellationToken: cancellationToken));
+        }
+
         public override async Task<CatalogItemDb?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var sql = $"""
