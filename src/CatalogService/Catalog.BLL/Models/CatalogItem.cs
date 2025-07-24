@@ -6,21 +6,19 @@
         public string Name { get; private set; }
         public string Description { get; private set; }
         public decimal Price { get; private set; }
-        public string PictureFileName { get; private set; }
         public int AvailableStock { get; private set; }
         public int RestockThreshold { get; private set; }
         public int MaxStockThreshold { get; private set; }
         public CatalogBrand CatalogBrand { get; private set; }
         public CatalogCategory CatalogCategory { get; private set; }
 
-        private CatalogItem(string name, string description, decimal price, string pictureFileName, int restockThreshold,
+        private CatalogItem(string name, string description, decimal price, int restockThreshold,
             int maxStockThreshold, CatalogBrand brand, CatalogCategory category)
         {
             Id = Guid.NewGuid();
             Name = name;
             Description = description;
             Price = price;
-            PictureFileName = pictureFileName;
             AvailableStock = 0;
             RestockThreshold = restockThreshold;
             MaxStockThreshold = maxStockThreshold;
@@ -32,7 +30,6 @@
             string name,
             string description,
             decimal price,
-            string pictureFileName,
             int restockThreshold,
             int maxStockThreshold,
             CatalogBrand brand,
@@ -57,7 +54,6 @@
                 name.Trim(),
                 description.Trim(),
                 price,
-                pictureFileName,
                 restockThreshold,
                 maxStockThreshold,
                 brand,
@@ -85,13 +81,6 @@
             if (price < 0) { throw new ArgumentException("Price cannot be negative."); }
 
             Price = price.Value;
-        }
-
-        public void ChangePicture(string? pictureFileName)
-        {
-            if (string.IsNullOrWhiteSpace(pictureFileName)) { return; }
-
-            PictureFileName = pictureFileName.Trim();
         }
 
         public void ChangeBrand(CatalogBrand? brand)
