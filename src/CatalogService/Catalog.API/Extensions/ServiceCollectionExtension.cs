@@ -1,9 +1,12 @@
-﻿using Catalog.BLL.MappingProfiles.CatalogItemMappingProfiles;
+﻿using Catalog.BLL.DtoValidators.CatalogItem;
+using Catalog.BLL.MappingProfiles.CatalogItemMappingProfiles;
 using Catalog.BLL.Services.Implementations;
 using Catalog.BLL.Services.Interfaces;
 using Catalog.DAL.Data.Connection;
 using Catalog.DAL.Repositories.Implementations;
 using Catalog.DAL.Repositories.Interfaces;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 namespace Catalog.API.Extensions
 {
@@ -42,6 +45,14 @@ namespace Catalog.API.Extensions
         public static IServiceCollection AddAutomapperProfiles(this IServiceCollection services)
         {
             services.AddAutoMapper(assembly => assembly.AddMaps(typeof(CatalogItemProfile).Assembly));
+
+            return services;
+        }
+
+        public static IServiceCollection AddValidators(this IServiceCollection services)
+        {
+            services.AddFluentValidationAutoValidation();
+            services.AddValidatorsFromAssemblyContaining<CreateCatalogItemDtoValidator>();
 
             return services;
         }

@@ -11,7 +11,8 @@ services
     .AddDatabase(builder.Configuration)
     .AddRepositories()
     .AddBLLServices()
-    .AddAutomapperProfiles();
+    .AddAutomapperProfiles()
+    .AddValidators();
 
 var app = builder.Build();
 
