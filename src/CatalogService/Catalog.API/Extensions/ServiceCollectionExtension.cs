@@ -30,7 +30,7 @@ namespace Catalog.API.Extensions
 
         public static IServiceCollection AddAutomapperProfiles(this IServiceCollection services)
         {
-            services.AddAutoMapper(assembly => assembly.AddMaps(typeof(CatalogItemDbDomainProfile).Assembly));
+            services.AddAutoMapper(assembly => assembly.AddMaps(typeof(CatalogItemProfile).Assembly));
 
             return services;
         }
