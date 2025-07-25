@@ -31,7 +31,7 @@ namespace Catalog.BLL.MappingProfiles.CatalogItemMappingProfiles
                 .ForMember(dest => dest.CatalogBrandId, opt => opt.MapFrom(src => src.CatalogBrand.Id))
                 .ForMember(dest => dest.CatalogCategoryId, opt => opt.MapFrom(src => src.CatalogCategory.Id))
                 .ForMember(dest => dest.CatalogBrand, opt => opt.MapFrom(src => src.CatalogBrand))
-                .ForMember(dest => dest.CatalogCategory, opt => opt.MapFrom(src => src.CatalogBrand));
+                .ForMember(dest => dest.CatalogCategory, opt => opt.MapFrom(src => src.CatalogCategory));
 
             CreateMap<CatalogItem, CatalogItemDto>()
                 .ForMember(dest => dest.ItemId, opt => opt.MapFrom(src => src.Id))

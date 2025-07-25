@@ -35,7 +35,7 @@ namespace Catalog.BLL.Services.Implementations
             await Task.WhenAll(dataTask, countTask);
 
             var catalogItemDtos = _mapper.Map<IEnumerable<CatalogItemDto>>(dataTask.Result);
-            return new PaginatedResponse<CatalogItemDto>(catalogItemDtos, countTask.Result, dto.PageNumber, dto.PageSize);
+            return new PaginatedResponse<CatalogItemDto>(catalogItemDtos, countTask.Result, queryParams.PageNumber, queryParams.PageSize);
         }
 
         public async Task AddAsync(CreateCatalogItemDto dto, CancellationToken cancellationToken)
