@@ -6,7 +6,7 @@ namespace Catalog.BLL.MappingProfiles.FilterProfiles
 {
     public class CatalogCategoryDtoQueryProfile : Profile
     {
-        CatalogCategoryDtoQueryProfile() 
+        public CatalogCategoryDtoQueryProfile() 
         {
             CreateMap<GetFilteredCategoriesDto, CatalogCategoryQueryParams>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
