@@ -67,9 +67,9 @@ namespace Catalog.BLL.Services.Implementations
             await _unitOfWork.CatalogItemRepository.UpdateAsync(_mapper.Map<CatalogItemDb>(catalogItem), cancellationToken);
         }
 
-        public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
+        public Task DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
-            await _unitOfWork.CatalogItemRepository.DeleteAsync(id, cancellationToken);
+            return _unitOfWork.CatalogItemRepository.DeleteAsync(id, cancellationToken);
         }
 
         public async Task<AddStockResponse> AddStockAsync(Guid id, AddStockRequest dto, CancellationToken cancellationToken)

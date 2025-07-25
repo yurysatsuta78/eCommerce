@@ -34,11 +34,11 @@ namespace Catalog.BLL.Services.Implementations
             return new PaginatedResponse<CatalogCategoryDto>(catalogCategoryDtos, countTask.Result, dto.PageNumber, dto.PageSize);
         }
 
-        public async Task AddAsync(CreateCategoryDto dto, CancellationToken cancellationToken)
+        public Task AddAsync(CreateCategoryDto dto, CancellationToken cancellationToken)
         {
             var catalogCategoryDb = _mapper.Map<CatalogCategoryDb>(CatalogCategory.Create(Guid.NewGuid(), dto.Name));
 
-            await _catalogCategoryRepository.AddAsync(catalogCategoryDb, cancellationToken);
+            return _catalogCategoryRepository.AddAsync(catalogCategoryDb, cancellationToken);
         }
 
         public async Task UpdateAsync(Guid id, UpdateCategoryDto dto, CancellationToken cancellationToken)
@@ -52,9 +52,9 @@ namespace Catalog.BLL.Services.Implementations
             await _catalogCategoryRepository.UpdateAsync(_mapper.Map<CatalogCategoryDb>(catalogCategory), cancellationToken);
         }
 
-        public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
+        public Task DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
-            await _catalogCategoryRepository.DeleteAsync(id, cancellationToken);
+            return _catalogCategoryRepository.DeleteAsync(id, cancellationToken);
         }
     }
 }

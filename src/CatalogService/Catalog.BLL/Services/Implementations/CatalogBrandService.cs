@@ -34,11 +34,11 @@ namespace Catalog.BLL.Services.Implementations
             return new PaginatedResponse<CatalogBrandDto>(catalogBrandDtos, countTask.Result, dto.PageNumber, dto.PageSize);
         }
 
-        public async Task AddAsync(CreateBrandDto dto, CancellationToken cancellationToken)
+        public Task AddAsync(CreateBrandDto dto, CancellationToken cancellationToken)
         {
             var catalogBrandDb = _mapper.Map<CatalogBrandDb>(CatalogBrand.Create(Guid.NewGuid(), dto.Name));
 
-            await _catalogBrandRepository.AddAsync(catalogBrandDb, cancellationToken);
+            return _catalogBrandRepository.AddAsync(catalogBrandDb, cancellationToken);
         }
 
         public async Task UpdateAsync(Guid id, UpdateBrandDto dto, CancellationToken cancellationToken)
@@ -52,9 +52,9 @@ namespace Catalog.BLL.Services.Implementations
             await _catalogBrandRepository.UpdateAsync(_mapper.Map<CatalogBrandDb>(catalogBrand), cancellationToken);
         }
 
-        public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
+        public Task DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
-            await _catalogBrandRepository.DeleteAsync(id, cancellationToken);
+            return _catalogBrandRepository.DeleteAsync(id, cancellationToken);
         }
     }
 }
