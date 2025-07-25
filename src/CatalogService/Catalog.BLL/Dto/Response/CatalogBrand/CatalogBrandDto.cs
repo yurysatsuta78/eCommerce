@@ -2,5 +2,9 @@
 
 namespace Catalog.BLL.Dto.Response.CatalogBrand
 {
-    public record CatalogBrandDto(Guid BrandId, string Name) : IEntityDto;
+    public record CatalogBrandDto : IEntityDto 
+    {
+        public Guid BrandId { get; init; }
+        public string Name { get; init; }
+    }
 }
