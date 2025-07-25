@@ -8,7 +8,7 @@ using RemoveStockResponse = Catalog.BLL.Dto.Response.CatalogItem.RemoveStockDto;
 
 namespace Catalog.BLL.Services.Interfaces
 {
-    internal interface ICatalogItemService
+    public interface ICatalogItemService
     {
         Task<PaginatedResponse<CatalogItemDto>> GetPaginatedAsync(GetFilteredCatalogItemsDto dto, CancellationToken cancellationToken);
         Task AddAsync(CreateCatalogItemDto dto, CancellationToken cancellationToken);
