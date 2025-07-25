@@ -87,20 +87,6 @@
             Price = price.Value;
         }
 
-        public void ChangeBrand(CatalogBrand? brand)
-        {
-            if (brand is null) { return; }
-
-            CatalogBrand = brand;
-        }
-
-        public void ChangeCategory(CatalogCategory? category)
-        {
-            if (category is null) { return; }
-
-            CatalogCategory = category;
-        }
-
         public int RemoveStock(int quantityDesired)
         {
             if (AvailableStock == 0)
