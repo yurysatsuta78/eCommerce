@@ -22,6 +22,7 @@ namespace Catalog.API.Extensions
             services.AddScoped<ICatalogItemRepository, CatalogItemRepository>();
             services.AddScoped<ICatalogBrandRepository, CatalogBrandRepository>();
             services.AddScoped<ICatalogCategoryRepository, CatalogCategoryRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return services;
         }
