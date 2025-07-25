@@ -1,8 +1,9 @@
 ﻿using Catalog.BLL.MappingProfiles.CatalogItemMappingProfiles;
+using Catalog.BLL.Services.Implementations;
+using Catalog.BLL.Services.Interfaces;
 using Catalog.DAL.Data.Connection;
 using Catalog.DAL.Repositories.Implementations;
 using Catalog.DAL.Repositories.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Catalog.API.Extensions
 {
@@ -25,6 +26,15 @@ namespace Catalog.API.Extensions
             services.AddScoped<ICatalogBrandRepository, CatalogBrandRepository>();
             services.AddScoped<ICatalogCategoryRepository, CatalogCategoryRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddBLLServices(this IServiceCollection services) 
+        {
+            services.AddScoped<ICatalogItemService, CatalogItemService>();
+            services.AddScoped<ICatalogBrandService, CatalogBrandService>();
+            services.AddScoped<ICatalogCategoryService, CatalogCategoryService>();
 
             return services;
         }
