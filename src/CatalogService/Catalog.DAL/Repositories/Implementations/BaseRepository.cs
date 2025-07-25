@@ -15,7 +15,6 @@ namespace Catalog.DAL.Repositories.Implementations
             _connectionFactory = connectionFactory;
         }
 
-        //Переопределить для запросов со связанными сущностями или если названия полей не совпадают
         public virtual async Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var sql = $"""
@@ -29,10 +28,8 @@ namespace Catalog.DAL.Repositories.Implementations
             );
         }
 
-        //Реализовать в наследниках
         public abstract Task AddAsync(T entity, CancellationToken cancellationToken);
 
-        //Реализовать в наследниках
         public abstract Task UpdateAsync(T entity, CancellationToken cancellationToken);
 
         public async Task DeleteAsync(Guid id, CancellationToken cancellationToken) 
