@@ -17,7 +17,7 @@ namespace Catalog.API.Extensions
             const string connectionName = "CatalogConnection";
 
             var connectionString = configuration.GetConnectionString(connectionName)
-                ?? throw new InvalidOperationException($"Строка подключения '{connectionName}' не найдена в конфигурации.");
+                ?? throw new InvalidOperationException($"Connection string '{connectionName}' was not found in the configuration.");
 
             services.AddSingleton<IDbConnectionFactory>(new NpgConnectionFactory(connectionString));
             return services;
