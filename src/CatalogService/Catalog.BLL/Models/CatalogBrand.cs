@@ -2,7 +2,7 @@
 {
     public class CatalogBrand
     {
-        public Guid Id { get; }
+        public Guid Id { get; private set; }
         public string Name { get; private set; }
 
         private CatalogBrand() { }

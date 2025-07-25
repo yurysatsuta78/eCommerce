@@ -2,7 +2,7 @@
 {
     public class CatalogCategory
     {
-        public Guid Id { get; }
+        public Guid Id { get; private set; }
         public string Name { get; private set; }
 
         private CatalogCategory() { }

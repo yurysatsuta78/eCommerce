@@ -1,8 +1,10 @@
-﻿namespace Catalog.BLL.Models
+﻿using Catalog.BLL.Exceptions;
+
+namespace Catalog.BLL.Models
 {
     public class CatalogItem
     {
-        public Guid Id { get; }
+        public Guid Id { get; private set; }
         public string Name { get; private set; }
         public string Description { get; private set; }
         public decimal Price { get; private set; }
@@ -39,19 +41,19 @@
             CatalogCategory category)
         {
             if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentException("Name cannot be empty.");
+                throw new CatalogDomainException("Name cannot be empty.");
 
             if (string.IsNullOrWhiteSpace(description))
-                throw new ArgumentException("Description cannot be empty.");
+                throw new CatalogDomainException("Description cannot be empty.");
 
             if (price <= 0)
-                throw new ArgumentException("Price cannot be negative.");
+                throw new CatalogDomainException("Price cannot be negative.");
 
             if (restockThreshold < 0 || maxStockThreshold < 0)
-                throw new ArgumentException("Thresholds must be non-negative.");
+                throw new CatalogDomainException("Thresholds must be non-negative.");
 
             if (restockThreshold > maxStockThreshold)
-                throw new ArgumentException("Restock threshold cannot exceed max threshold.");
+                throw new CatalogDomainException("Restock threshold cannot exceed max threshold.");
 
             return new CatalogItem(
                 id,
@@ -82,7 +84,7 @@
         {
             if (price is null) { return; }
 
-            if (price < 0) { throw new ArgumentException("Price cannot be negative."); }
+            if (price < 0) { throw new CatalogDomainException("Price cannot be negative."); }
 
             Price = price.Value;
         }
@@ -91,12 +93,12 @@
         {
             if (AvailableStock == 0)
             {
-                throw new InvalidOperationException($"Empty stock, product item {Name} is sold out.");
+                throw new CatalogDomainException($"Empty stock, product item {Name} is sold out.");
             }
 
             if (quantityDesired <= 0)
             {
-                throw new ArgumentException("Item units desired should be greater than zero.");
+                throw new CatalogDomainException("Item units desired should be greater than zero.");
             }
 
             int removed = Math.Min(quantityDesired, AvailableStock);
@@ -108,7 +110,7 @@
         {
             if (quantity <= 0)
             {
-                throw new ArgumentException("Item units to add must be greater than zero.");
+                throw new CatalogDomainException("Item units to add must be greater than zero.");
             }
 
             int spaceLeft = MaxStockThreshold - AvailableStock;

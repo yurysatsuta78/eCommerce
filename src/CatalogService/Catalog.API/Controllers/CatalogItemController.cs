@@ -31,6 +31,22 @@ namespace Catalog.API.Controllers
             return StatusCode(StatusCodes.Status201Created);
         }
 
+        [HttpPost("items/{id}/stock/decrement")]
+        public async Task<IActionResult> AddStockAsync(Guid id, [FromBody] RemoveStockDto dto, CancellationToken cancellationToken) 
+        {
+            var result = await _catalogItemService.RemoveStockAsync(id, dto, cancellationToken);
+
+            return Ok(result);
+        }
+
+        [HttpPost("items/{id}/stock/increment")]
+        public async Task<IActionResult> AddStockAsync(Guid id, [FromBody] AddStockDto dto, CancellationToken cancellationToken)
+        {
+            var result = await _catalogItemService.AddStockAsync(id, dto, cancellationToken);
+
+            return Ok(result);
+        }
+
         [HttpPatch("items/{id}")]
         public async Task<IActionResult> UpdateItemAsync(Guid id, [FromBody] UpdateCatalogItemDto dto, CancellationToken cancellationToken) 
         {
