@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Catalog.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/categories")]
     [ApiController]
     public class CatalogCategoryController : ControllerBase
     {
@@ -15,7 +15,7 @@ namespace Catalog.API.Controllers
             _catalogCategoryService = catalogCategoryService;
         }
 
-        [HttpGet("categories")]
+        [HttpGet]
         public async Task<IActionResult> GetFilteredCategoriesAsync([FromQuery] GetFilteredCategoriesDto dto, 
             CancellationToken cancellationToken)
         {
@@ -24,7 +24,7 @@ namespace Catalog.API.Controllers
             return Ok(filteredItems);
         }
 
-        [HttpPost("categories")]
+        [HttpPost]
         public async Task<IActionResult> AddNewCategoryAsync([FromBody] CreateCategoryDto dto, CancellationToken cancellationToken)
         {
             await _catalogCategoryService.AddAsync(dto, cancellationToken);
@@ -32,7 +32,7 @@ namespace Catalog.API.Controllers
             return StatusCode(StatusCodes.Status201Created);
         }
 
-        [HttpPatch("categories/{id}")]
+        [HttpPut("{id:guid}")]
         public async Task<IActionResult> UpdateCategoryAsync(Guid id, [FromBody] UpdateCategoryDto dto, CancellationToken cancellationToken)
         {
             await _catalogCategoryService.UpdateAsync(id, dto, cancellationToken);
@@ -40,7 +40,7 @@ namespace Catalog.API.Controllers
             return NoContent();
         }
 
-        [HttpDelete("categories/{id}")]
+        [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteCategoryAsync(Guid id, CancellationToken cancellationToken)
         {
             await _catalogCategoryService.DeleteAsync(id, cancellationToken);

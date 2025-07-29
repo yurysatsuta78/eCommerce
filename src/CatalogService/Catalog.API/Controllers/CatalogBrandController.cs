@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Catalog.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/brands")]
     [ApiController]
     public class CatalogBrandController : ControllerBase
     {
@@ -15,7 +15,7 @@ namespace Catalog.API.Controllers
             _catalogBrandService = catalogBrandService;
         }
 
-        [HttpGet("brands")]
+        [HttpGet]
         public async Task<IActionResult> GetFilteredBrandsAsync([FromQuery] GetFilteredBrandsDto dto, CancellationToken cancellationToken)
         {
             var filteredItems = await _catalogBrandService.GetPaginatedAsync(dto, cancellationToken);
@@ -23,7 +23,7 @@ namespace Catalog.API.Controllers
             return Ok(filteredItems);
         }
 
-        [HttpPost("brands")]
+        [HttpPost]
         public async Task<IActionResult> AddNewBrandAsync([FromBody] CreateBrandDto dto, CancellationToken cancellationToken)
         {
             await _catalogBrandService.AddAsync(dto, cancellationToken);
@@ -31,7 +31,7 @@ namespace Catalog.API.Controllers
             return StatusCode(StatusCodes.Status201Created);
         }
 
-        [HttpPatch("brands/{id}")]
+        [HttpPut("{id:guid}")]
         public async Task<IActionResult> UpdateBrandAsync(Guid id, [FromBody] UpdateBrandDto dto, CancellationToken cancellationToken)
         {
             await _catalogBrandService.UpdateAsync(id, dto, cancellationToken);
@@ -39,7 +39,7 @@ namespace Catalog.API.Controllers
             return NoContent();
         }
 
-        [HttpDelete("brands/{id}")]
+        [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteBrandAsync(Guid id, CancellationToken cancellationToken)
         {
             await _catalogBrandService.DeleteAsync(id, cancellationToken);
