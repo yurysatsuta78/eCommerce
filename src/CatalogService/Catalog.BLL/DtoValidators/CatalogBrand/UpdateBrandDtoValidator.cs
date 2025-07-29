@@ -8,8 +8,8 @@ namespace Catalog.BLL.DtoValidators.CatalogBrand
         public UpdateBrandDtoValidator() 
         {
             RuleFor(dto => dto.Name)
-                .MaximumLength(50).WithMessage("Brand name must not exceed 50 characters.")
-                .MinimumLength(1).WithMessage("Brand name must be at least 1 character long.");
+                .MinimumLength(1).WithMessage("Brand name must be at least 1 character long.")
+                .MaximumLength(50).WithMessage("Brand name must not exceed 50 characters.");
         }
     }
 }
