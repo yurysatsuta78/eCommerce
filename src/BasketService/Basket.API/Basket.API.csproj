@@ -11,10 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Basket.BLL\Basket.BLL.csproj" />
     <ProjectReference Include="..\Basket.DAL\Basket.DAL.csproj" />
   </ItemGroup>
