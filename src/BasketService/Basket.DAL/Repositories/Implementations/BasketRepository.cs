@@ -21,9 +21,12 @@ namespace Basket.DAL.Repositories.Implementations
         {
             var basketData = await _database.StringGetAsync(customerId.ToString());
 
-            var basket = JsonSerializer.Deserialize<CustomerBasketDb>(basketData);
+            if (!basketData.HasValue) 
+            {
+                return null;
+            }
 
-            return basket;
+            return JsonSerializer.Deserialize<CustomerBasketDb>(basketData);
         }
 
         public async Task<bool> UpdateAsync(CustomerBasketDb basket)
