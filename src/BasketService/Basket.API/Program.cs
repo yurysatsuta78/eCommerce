@@ -9,7 +9,9 @@ services.AddSwaggerGen();
 
 services
     .AddDatabase(builder.Configuration)
-    .AddRepositories();
+    .AddRepositories()
+    .AddBLLServices()
+    .AddMapper();
 
 
 var app = builder.Build();
