@@ -3,7 +3,7 @@ using Order.Domain.Exceptions;
 
 namespace Order.Domain.Models
 {
-    public class Order
+    public class CustomerOrder
     {
         private readonly List<OrderItem> _orderItems = new();
 
@@ -13,9 +13,9 @@ namespace Order.Domain.Models
         public decimal TotalPrice => OrderItems.Sum(x => x.TotalPrice);
         public IReadOnlyCollection<OrderItem> OrderItems => _orderItems;
 
-        private Order() { }
+        private CustomerOrder() { }
 
-        private Order(Guid id, Guid customerId, List<OrderItem> orderItems)
+        private CustomerOrder(Guid id, Guid customerId, List<OrderItem> orderItems)
         {
             Id = id;
             CustomerId = customerId;
@@ -24,12 +24,12 @@ namespace Order.Domain.Models
         }
 
 
-        public static Order Create(Guid id, Guid customerId, List<OrderItem> orderItems) 
+        public static CustomerOrder Create(Guid id, Guid customerId, List<OrderItem> orderItems) 
         {
             if (orderItems is null || !orderItems.Any())
                 throw new OrderDomainException("Order must contain at least one item.");
 
-            return new Order(id, customerId, orderItems);
+            return new CustomerOrder(id, customerId, orderItems);
         }
 
 
