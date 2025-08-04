@@ -1,8 +1,8 @@
 ﻿using Basket.DAL.Options;
 using Basket.DAL.Repositories.Implementations;
 using Basket.DAL.Repositories.Interfaces;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
-using StackExchange.Redis;
 
 namespace Basket.API.Extensions
 {
@@ -12,10 +12,10 @@ namespace Basket.API.Extensions
         {
             services.AddScoped<IBasketRepository>(sp =>
             {
-                var redis = sp.GetRequiredService<IConnectionMultiplexer>();
+                var cache = sp.GetRequiredService<IDistributedCache>();
                 var options = sp.GetRequiredService<IOptions<RedisOptions>>().Value;
 
-                return new BasketRepository(redis, options);
+                return new BasketRepository(cache, options);
             });
 
             return services;

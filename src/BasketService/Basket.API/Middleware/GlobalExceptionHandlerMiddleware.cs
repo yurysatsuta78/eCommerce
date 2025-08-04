@@ -6,9 +6,9 @@ namespace Basket.API.Middleware
     public class GlobalExceptionHandler
     {
         private readonly RequestDelegate _next;
-        private readonly ILogger _logger;
+        private readonly ILogger<GlobalExceptionHandler> _logger;
 
-        public GlobalExceptionHandler(RequestDelegate next, ILogger logger)
+        public GlobalExceptionHandler(RequestDelegate next, ILogger<GlobalExceptionHandler> logger)
         {
             _next = next;
             _logger = logger;

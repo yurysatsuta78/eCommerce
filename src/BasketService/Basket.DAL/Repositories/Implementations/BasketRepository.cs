@@ -2,44 +2,49 @@
 using Basket.DAL.Models;
 using Basket.DAL.Options;
 using Basket.DAL.Repositories.Interfaces;
-using StackExchange.Redis;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace Basket.DAL.Repositories.Implementations
 {
     public class BasketRepository : IBasketRepository
     {
-        private readonly IDatabase _database;
-        private readonly TimeSpan _expiryDays;
+        private readonly IDistributedCache _cache;
+        private readonly DistributedCacheEntryOptions _cacheOptions;
 
-        public BasketRepository(IConnectionMultiplexer database, RedisOptions options)
+        public BasketRepository(IDistributedCache cache, RedisOptions options)
         {
-            _database = database.GetDatabase();
-            _expiryDays = TimeSpan.FromDays(options.ExpiryDays);
+            _cache = cache;
+            _cacheOptions = new DistributedCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(options.ExpiryDays)
+            };
         }
 
-        public async Task<CustomerBasketDb?> GetByCustomerIdAsync(Guid customerId)
-        {
-            var basketData = await _database.StringGetAsync(customerId.ToString());
 
-            if (!basketData.HasValue) 
+        public async Task<CustomerBasketDb?> GetByCustomerIdAsync(Guid customerId, CancellationToken cancellationToken)
+        {
+            var json = await _cache.GetStringAsync(customerId.ToString(), cancellationToken);
+
+            if (string.IsNullOrEmpty(json)) 
             {
                 return null;
             }
 
-            return JsonSerializer.Deserialize<CustomerBasketDb>(basketData);
+            return JsonSerializer.Deserialize<CustomerBasketDb>(json);
         }
 
-        public async Task<bool> UpdateAsync(CustomerBasketDb basket)
+
+        public Task UpdateAsync(CustomerBasketDb basket, CancellationToken cancellationToken)
         {
-            return await _database.StringSetAsync(
-                basket.CustomerId.ToString(), 
-                JsonSerializer.Serialize(basket), 
-                _expiryDays);
+            var json = JsonSerializer.Serialize(basket);
+
+            return _cache.SetStringAsync(basket.CustomerId.ToString(), json, _cacheOptions, cancellationToken);
         }
 
-        public async Task<bool> DeleteAsync(Guid customerId)
+
+        public Task DeleteAsync(Guid customerId, CancellationToken cancellationToken)
         {
-            return await _database.KeyDeleteAsync(customerId.ToString());
+            return _cache.RemoveAsync(customerId.ToString(), cancellationToken);
         }
     }
 }

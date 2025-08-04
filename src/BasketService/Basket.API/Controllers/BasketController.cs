@@ -15,22 +15,25 @@ namespace Basket.API.Controllers
             _basketService = basketService;
         }
 
+
         [HttpGet("{customerId:guid}")]
-        public async Task<IActionResult> GetByCustomerIdAsync(Guid customerId) 
+        public async Task<IActionResult> GetByCustomerIdAsync(Guid customerId, CancellationToken cancellationToken) 
         {
-            return Ok(await _basketService.GetByCustomerIdAsync(customerId));
+            return Ok(await _basketService.GetByCustomerIdAsync(customerId, cancellationToken));
         }
+
 
         [HttpPut("{customerId:guid}")]
-        public async Task<IActionResult> UpdateAsync(Guid customerId, [FromBody] CustomerBasketDto dto) 
+        public async Task<IActionResult> UpdateAsync(Guid customerId, [FromBody] CustomerBasketDto dto, CancellationToken cancellationToken) 
         {
-            return Ok(await _basketService.UpdateAsync(customerId, dto));
+            return Ok(await _basketService.UpdateAsync(customerId, dto, cancellationToken));
         }
 
+
         [HttpDelete("{customerId:guid}")]
-        public async Task<IActionResult> DeleteAsync(Guid customerId) 
+        public async Task<IActionResult> DeleteAsync(Guid customerId, CancellationToken cancellationToken) 
         {
-            await _basketService.DeleteAsync(customerId);
+            await _basketService.DeleteAsync(customerId, cancellationToken);
 
             return NoContent();
         }

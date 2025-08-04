@@ -9,7 +9,7 @@ services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
 
 services
-    .AddDatabase(builder.Configuration)
+    .AddRedisCache(builder.Configuration)
     .AddRepositories()
     .AddBLLServices()
     .AddMapper();

@@ -4,8 +4,8 @@ namespace Basket.DAL.Repositories.Interfaces
 {
     public interface IBasketRepository
     {
-        Task<CustomerBasketDb?> GetByCustomerIdAsync(Guid customerId);
-        Task<bool> UpdateAsync(CustomerBasketDb basket);
-        Task<bool> DeleteAsync(Guid customerId);
+        Task<CustomerBasketDb?> GetByCustomerIdAsync(Guid customerId, CancellationToken cancellationToken);
+        Task UpdateAsync(CustomerBasketDb basket, CancellationToken cancellationToken);
+        Task DeleteAsync(Guid customerId, CancellationToken cancellationToken);
     }
 }

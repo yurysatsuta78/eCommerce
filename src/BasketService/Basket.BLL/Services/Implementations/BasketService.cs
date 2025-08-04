@@ -18,9 +18,9 @@ namespace Basket.BLL.Services.Implementations
             _mapper = mapper;
         }
 
-        public async Task<CustomerBasketDto> GetByCustomerIdAsync(Guid customerId)
+        public async Task<CustomerBasketDto> GetByCustomerIdAsync(Guid customerId, CancellationToken cancellationToken)
         {
-            var existingBasket = await _basketRepository.GetByCustomerIdAsync(customerId);
+            var existingBasket = await _basketRepository.GetByCustomerIdAsync(customerId, cancellationToken);
 
             if (existingBasket != null) 
             {
@@ -33,19 +33,20 @@ namespace Basket.BLL.Services.Implementations
                 Items = new List<BasketItemDb>()
             };
 
-            await _basketRepository.UpdateAsync(basket);
+            await _basketRepository.UpdateAsync(basket, cancellationToken);
 
             return _mapper.Map<CustomerBasketDto>(basket);
         }
 
-        public async Task<CustomerBasketDto> UpdateAsync(Guid customerId, CustomerBasketDto dto)
+
+        public async Task<CustomerBasketDto> UpdateAsync(Guid customerId, CustomerBasketDto dto, CancellationToken cancellationToken)
         {
-            var existingBasket = await _basketRepository.GetByCustomerIdAsync(customerId);
+            var existingBasket = await _basketRepository.GetByCustomerIdAsync(customerId, cancellationToken);
 
             if (existingBasket != null) 
             {
                 existingBasket.Items = MapItems(dto.Items);
-                await _basketRepository.UpdateAsync(existingBasket);
+                await _basketRepository.UpdateAsync(existingBasket, cancellationToken);
 
                 return _mapper.Map<CustomerBasketDto>(existingBasket);
             }
@@ -56,18 +57,20 @@ namespace Basket.BLL.Services.Implementations
                 Items = MapItems(dto.Items)
             };
 
-            await _basketRepository.UpdateAsync(basket);
+            await _basketRepository.UpdateAsync(basket, cancellationToken);
 
             return _mapper.Map<CustomerBasketDto>(basket);
         }
 
-        public async Task DeleteAsync(Guid customerId)
+
+        public async Task DeleteAsync(Guid customerId, CancellationToken cancellationToken)
         {
-            var existingBasket = await _basketRepository.GetByCustomerIdAsync(customerId)
+            var existingBasket = await _basketRepository.GetByCustomerIdAsync(customerId, cancellationToken)
                 ?? throw new BasketNotFoundException($"Basket with customer id: {customerId} not found.");
 
-            await _basketRepository.DeleteAsync(customerId);
+            await _basketRepository.DeleteAsync(customerId, cancellationToken);
         }
+
 
         private List<BasketItemDb> MapItems(IEnumerable<BasketItemDto> items)
         {
