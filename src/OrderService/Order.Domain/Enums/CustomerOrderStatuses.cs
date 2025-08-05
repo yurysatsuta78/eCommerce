@@ -1,6 +1,6 @@
 ﻿namespace Order.Domain.Enums
 {
-    public enum OrderStatuses
+    public enum CustomerOrderStatuses
     {
         Pending = 0,
         Paid = 1,

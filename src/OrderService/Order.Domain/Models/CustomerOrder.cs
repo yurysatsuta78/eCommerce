@@ -9,7 +9,7 @@ namespace Order.Domain.Models
 
         public Guid Id { get; private set; }
         public Guid CustomerId { get; private set; }
-        public OrderStatuses Status { get; private set; }
+        public CustomerOrderStatuses Status { get; private set; }
         public decimal TotalPrice => OrderItems.Sum(x => x.TotalPrice);
         public IReadOnlyCollection<OrderItem> OrderItems => _orderItems;
 
@@ -19,7 +19,7 @@ namespace Order.Domain.Models
         {
             Id = id;
             CustomerId = customerId;
-            Status = OrderStatuses.Pending;
+            Status = CustomerOrderStatuses.Pending;
             _orderItems = new List<OrderItem>(orderItems);
         }
 
@@ -33,12 +33,12 @@ namespace Order.Domain.Models
         }
 
 
-        public void SetPaid() => ChangeStatus(OrderStatuses.Paid);
-        public void SetCancelled() => ChangeStatus(OrderStatuses.Cancelled);
-        public void SetCompleted() => ChangeStatus(OrderStatuses.Completed);
+        public void SetPaid() => ChangeStatus(CustomerOrderStatuses.Paid);
+        public void SetCancelled() => ChangeStatus(CustomerOrderStatuses.Cancelled);
+        public void SetCompleted() => ChangeStatus(CustomerOrderStatuses.Completed);
 
 
-        private void ChangeStatus(OrderStatuses newStatus)
+        private void ChangeStatus(CustomerOrderStatuses newStatus)
         {
             if (!IsValidTransition(Status, newStatus))
                 throw new OrderDomainException($"Invalid status transition from {Status} to {newStatus}");
@@ -47,14 +47,14 @@ namespace Order.Domain.Models
         }
 
 
-        private bool IsValidTransition(OrderStatuses current, OrderStatuses next)
+        private bool IsValidTransition(CustomerOrderStatuses current, CustomerOrderStatuses next)
         {
             return current switch
             {
-                OrderStatuses.Pending => next == OrderStatuses.Paid || next == OrderStatuses.Cancelled,
-                OrderStatuses.Paid => next == OrderStatuses.Completed || next == OrderStatuses.Cancelled,
-                OrderStatuses.Cancelled => false,
-                OrderStatuses.Completed => false,
+                CustomerOrderStatuses.Pending => next == CustomerOrderStatuses.Paid || next == CustomerOrderStatuses.Cancelled,
+                CustomerOrderStatuses.Paid => next == CustomerOrderStatuses.Completed || next == CustomerOrderStatuses.Cancelled,
+                CustomerOrderStatuses.Cancelled => false,
+                CustomerOrderStatuses.Completed => false,
                 _ => false,
             };
         }

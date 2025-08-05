@@ -3,12 +3,12 @@ using Order.Domain.QueryParams;
 
 namespace Order.Domain.Interfaces
 {
-    public interface IOrdersRepository
+    public interface ICustomerOrdersRepository
     {
         Task<IEnumerable<CustomerOrder>> GetPaginatedAsync(CustomerOrderFilterParams filter, CancellationToken cancellationToken);
-        Task<CustomerOrder?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+        Task<CustomerOrder?> GetByIdAsync(Guid id, bool withIncludes, CancellationToken cancellationToken);
         Task AddAsync(CustomerOrder customerOrder, CancellationToken cancellationToken);
-        Task UpdateAsync(CustomerOrder customerOrder, CancellationToken cancellationToken);
-        Task DeleteAsync(Guid id, CancellationToken cancellationToken);
+        void Update(CustomerOrder customerOrder);
+        void Delete(CustomerOrder customerOrder);
     }
 }
