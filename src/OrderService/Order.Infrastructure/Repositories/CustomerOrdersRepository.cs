@@ -2,16 +2,17 @@
 using Order.Domain.Interfaces;
 using Order.Domain.Models;
 using Order.Domain.QueryParams;
+using Order.Infrastructure.Data;
 using Order.Infrastructure.QueryBuilders;
 
 namespace Order.Infrastructure.Repositories
 {
     public class CustomerOrdersRepository : ICustomerOrdersRepository
     {
-        private readonly DbContext _dbContext;
+        private readonly OrdersDbContext _dbContext;
         private readonly DbSet<CustomerOrder> _dbSet;
 
-        public CustomerOrdersRepository(DbContext dbContext)
+        public CustomerOrdersRepository(OrdersDbContext dbContext)
         {
             _dbContext = dbContext;
             _dbSet = _dbContext.Set<CustomerOrder>();

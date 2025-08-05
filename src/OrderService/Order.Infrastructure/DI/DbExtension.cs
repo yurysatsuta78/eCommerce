@@ -14,7 +14,7 @@ namespace Order.Infrastructure.DI
             var connectionString = configuration.GetConnectionString(connectionName)
                 ?? throw new InvalidOperationException($"Connection string '{connectionName}' was not found in the configuration.");
 
-            services.AddDbContext<DbContext, OrdersDbContext>(options =>
+            services.AddDbContext<OrdersDbContext>(options =>
             {
                 options.UseNpgsql(connectionString);
             });
