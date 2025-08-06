@@ -8,22 +8,22 @@ using Order.Domain.QueryParams;
 
 namespace Order.Application.Features.CustomerOrderFeatures.Handlers
 {
-    public class GetPaginatedCustomerOrdersHandler : IRequestHandler<GetPaginatedCustomerOrdersQuery, PaginatedResponse>
+    public class GetFilteredCustomerOrdersHandler : IRequestHandler<GetFilteredCustomerOrdersQuery, PaginatedResponse>
     {
         private readonly ICustomerOrdersRepository _customerOrdersRepository;
         private readonly IMapper _mapper;
 
-        public GetPaginatedCustomerOrdersHandler(ICustomerOrdersRepository customerOrdersRepository, IMapper mapper)
+        public GetFilteredCustomerOrdersHandler(ICustomerOrdersRepository customerOrdersRepository, IMapper mapper)
         {
             _customerOrdersRepository = customerOrdersRepository;
             _mapper = mapper;
         }
 
-        public async Task<PaginatedResponse> Handle(GetPaginatedCustomerOrdersQuery request, CancellationToken cancellationToken)
+        public async Task<PaginatedResponse> Handle(GetFilteredCustomerOrdersQuery request, CancellationToken cancellationToken)
         {
             var queryParams = _mapper.Map<CustomerOrderFilterParams>(request.Filter);
 
-            var dataTask = _customerOrdersRepository.GetPaginatedAsync(queryParams, cancellationToken);
+            var dataTask = _customerOrdersRepository.GetFilteredAsync(queryParams, cancellationToken);
             var countTask = _customerOrdersRepository.GetCountAsync(queryParams, cancellationToken);
             await Task.WhenAll(dataTask, countTask);
 

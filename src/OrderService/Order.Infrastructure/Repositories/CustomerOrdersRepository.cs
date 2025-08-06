@@ -18,7 +18,7 @@ namespace Order.Infrastructure.Repositories
             _dbSet = _dbContext.Set<CustomerOrder>();
         }
 
-        public Task<IEnumerable<CustomerOrder>> GetPaginatedAsync(CustomerOrderFilterParams filter, CancellationToken cancellationToken)
+        public Task<IEnumerable<CustomerOrder>> GetFilteredAsync(CustomerOrderFilterParams filter, CancellationToken cancellationToken)
         {
             var builder = new CustomerOrderQueryBuilder(_dbSet.AsNoTracking().Include(co => co.OrderItems))
                 .ByCustomerId(filter.CustomerId)

@@ -11,7 +11,8 @@ services.AddSwaggerGen();
 services
     .AddDatabase(builder.Configuration)
     .AddMediatR()
-    .AddAutoMapper();
+    .AddAutoMapper()
+    .AddRepositories();
 
 var app = builder.Build();
 
