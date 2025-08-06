@@ -28,9 +28,9 @@ namespace Order.API.Controllers
         }
 
         [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetOrderByIdAsync(Guid orderId, CancellationToken cancellationToken) 
+        public async Task<IActionResult> GetOrderByIdAsync(Guid id, CancellationToken cancellationToken) 
         {
-            var query = new GetCustomerOrderByIdQuery { CustomerOrderId = orderId };
+            var query = new GetCustomerOrderByIdQuery { CustomerOrderId = id };
             var order = await _mediator.Send(query, cancellationToken);
 
             return Ok(order);
@@ -46,9 +46,9 @@ namespace Order.API.Controllers
         }
 
         [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> DeleteOrderAsync(Guid orderId, CancellationToken cancellationToken) 
+        public async Task<IActionResult> DeleteOrderAsync(Guid id, CancellationToken cancellationToken) 
         {
-            var command = new DeleteCustomerOrderCommand { CustomerOrderId = orderId };
+            var command = new DeleteCustomerOrderCommand { CustomerOrderId = id };
             await _mediator.Send(command, cancellationToken);
 
             return NoContent();

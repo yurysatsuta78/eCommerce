@@ -32,24 +32,6 @@ namespace Order.Infrastructure.QueryBuilders
             return this;
         }
 
-        public CustomerOrderQueryBuilder MinTotalPrice(decimal? minTotalPrice)
-        {
-            if (minTotalPrice is not null)
-            {
-                _query = _query.Where(o => o.TotalPrice >= minTotalPrice);
-            }
-            return this;
-        }
-
-        public CustomerOrderQueryBuilder MaxTotalPrice(decimal? maxTotalPrice)
-        {
-            if (maxTotalPrice is not null)
-            {
-                _query = _query.Where(o => o.TotalPrice <= maxTotalPrice);
-            }
-            return this;
-        }
-
         public async Task<IEnumerable<CustomerOrder>> BuildPaginatedListAsync(CustomerOrderFilterParams filter, 
             CancellationToken cancellationToken)
         {

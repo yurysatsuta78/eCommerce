@@ -22,9 +22,7 @@ namespace Order.Infrastructure.Repositories
         {
             var builder = new CustomerOrderQueryBuilder(_dbSet.AsNoTracking().Include(co => co.OrderItems))
                 .ByCustomerId(filter.CustomerId)
-                .ByStatus(filter.Status)
-                .MinTotalPrice(filter.MinTotalPrice)
-                .MaxTotalPrice(filter.MaxTotalPrice);
+                .ByStatus(filter.Status);
 
             return builder.BuildPaginatedListAsync(filter, cancellationToken);
         }
@@ -33,9 +31,7 @@ namespace Order.Infrastructure.Repositories
         {
             var builder = new CustomerOrderQueryBuilder(_dbSet.AsNoTracking().Include(co => co.OrderItems))
                 .ByCustomerId(filter.CustomerId)
-                .ByStatus(filter.Status)
-                .MinTotalPrice(filter.MinTotalPrice)
-                .MaxTotalPrice(filter.MaxTotalPrice);
+                .ByStatus(filter.Status);
 
             return builder.GetCountAsync(cancellationToken);
         }

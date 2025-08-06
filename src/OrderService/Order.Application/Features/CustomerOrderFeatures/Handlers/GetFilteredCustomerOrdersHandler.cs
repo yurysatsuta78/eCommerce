@@ -23,13 +23,12 @@ namespace Order.Application.Features.CustomerOrderFeatures.Handlers
         {
             var queryParams = _mapper.Map<CustomerOrderFilterParams>(request.Filter);
 
-            var dataTask = _customerOrdersRepository.GetFilteredAsync(queryParams, cancellationToken);
-            var countTask = _customerOrdersRepository.GetCountAsync(queryParams, cancellationToken);
-            await Task.WhenAll(dataTask, countTask);
+            var customerOrders = await _customerOrdersRepository.GetFilteredAsync(queryParams, cancellationToken);
+            var ordersCount = await _customerOrdersRepository.GetCountAsync(queryParams, cancellationToken);
 
-            var customerOrderDtos = _mapper.Map<IEnumerable<CustomerOrderDto>>(dataTask.Result);
+            var customerOrderDtos = _mapper.Map<IEnumerable<CustomerOrderDto>>(customerOrders);
 
-            return new PaginatedResponse(customerOrderDtos, countTask.Result, queryParams.PageNumber, queryParams.PageSize);
+            return new PaginatedResponse(customerOrderDtos, ordersCount, queryParams.PageNumber, queryParams.PageSize);
         }
     }
 }
