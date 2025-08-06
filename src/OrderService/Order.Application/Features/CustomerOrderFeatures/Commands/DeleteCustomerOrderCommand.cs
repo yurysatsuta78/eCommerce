@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Order.Application.Features.CustomerOrder.Commands
+namespace Order.Application.Features.CustomerOrderFeatures.Commands
 {
     public record DeleteCustomerOrderCommand : IRequest 
     {

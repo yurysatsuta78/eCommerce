@@ -2,10 +2,10 @@
 using Order.Application.Dto.Request;
 using Order.Application.Dto.Response;
 
-namespace Order.Application.Features.CustomerOrder.Commands
+namespace Order.Application.Features.CustomerOrderFeatures.Commands
 {
     public record CreateCustomerOrderCommand : IRequest<CustomerOrderDto>
     {
-        public CreateCustomerOrderDto Dto { get; init; }
+        public CreateCustomerOrderDto Dto { get; init; } = default!;
     }
 }

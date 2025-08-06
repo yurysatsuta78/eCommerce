@@ -8,6 +8,6 @@ namespace Order.Application.Dto.Response
         public Guid CustomerId { get; init; }
         public CustomerOrderStatuses Status { get; init; }
         public decimal TotalPrice { get; init; }
-        public List<OrderItemDto> OrderItems { get; init; }
+        public List<OrderItemDto> OrderItems { get; init; } = new();
     }
 }

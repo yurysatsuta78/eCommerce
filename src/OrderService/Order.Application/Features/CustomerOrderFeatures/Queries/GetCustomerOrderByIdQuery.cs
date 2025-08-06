@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Order.Application.Dto.Response;
 
-namespace Order.Application.Features.CustomerOrder.Queries
+namespace Order.Application.Features.CustomerOrderFeatures.Queries
 {
     public record GetCustomerOrderByIdQuery : IRequest<CustomerOrderDto> 
     {

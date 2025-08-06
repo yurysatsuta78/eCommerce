@@ -10,7 +10,8 @@ services.AddSwaggerGen();
 
 services
     .AddDatabase(builder.Configuration)
-    .AddMediatR();
+    .AddMediatR()
+    .AddAutoMapper();
 
 var app = builder.Build();
 

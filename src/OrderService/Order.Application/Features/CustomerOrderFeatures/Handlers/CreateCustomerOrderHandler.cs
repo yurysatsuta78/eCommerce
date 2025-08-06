@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using Order.Application.Dto.Response;
-using Order.Application.Features.CustomerOrder.Commands;
+using Order.Application.Features.CustomerOrderFeatures.Commands;
 
-namespace Order.Application.Features.CustomerOrder.Handlers
+namespace Order.Application.Features.CustomerOrderFeatures.Handlers
 {
     public class CreateCustomerOrderHandler : IRequestHandler<CreateCustomerOrderCommand, CustomerOrderDto>
     {
