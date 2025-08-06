@@ -10,7 +10,7 @@ namespace Orders.Infrastructure.Configurations
         {
             builder.HasKey(co => co.Id);
 
-            builder.ToTable("CustomerOrders");
+            builder.ToTable("Orders");
 
             builder.Property(co => co.CustomerId)
                 .IsRequired();
@@ -21,7 +21,7 @@ namespace Orders.Infrastructure.Configurations
 
             builder.HasMany(co => co.OrderItems)
                 .WithOne()
-                .HasForeignKey("CustomerOrderId")
+                .HasForeignKey("OrderId")
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
             builder.Metadata.FindNavigation(nameof(Order.OrderItems))?.SetField("_orderItems");

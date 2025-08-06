@@ -8,7 +8,9 @@ namespace Orders.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<OrderItem> builder) 
         {
-            builder.HasKey(oi => oi.ItemId);
+            builder.Property<Guid>("OrderId");
+
+            builder.HasKey("OrderId", nameof(OrderItem.ItemId));
 
             builder.ToTable("OrderItems", tableBuilder =>
             {
