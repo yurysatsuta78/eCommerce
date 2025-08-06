@@ -59,5 +59,10 @@ namespace Order.Infrastructure.QueryBuilders
 
             return await pagedQuery.ToListAsync(cancellationToken);
         }
+
+        public async Task<int> GetCountAsync(CancellationToken cancellationToken)
+        {
+            return await _query.CountAsync(cancellationToken);
+        }
     }
 }

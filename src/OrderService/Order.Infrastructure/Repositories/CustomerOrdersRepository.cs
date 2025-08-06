@@ -29,6 +29,17 @@ namespace Order.Infrastructure.Repositories
             return builder.BuildPaginatedListAsync(filter, cancellationToken);
         }
 
+        public Task<int> GetCountAsync(CustomerOrderFilterParams filter, CancellationToken cancellationToken) 
+        {
+            var builder = new CustomerOrderQueryBuilder(_dbSet.AsNoTracking().Include(co => co.OrderItems))
+                .ByCustomerId(filter.CustomerId)
+                .ByStatus(filter.Status)
+                .MinTotalPrice(filter.MinTotalPrice)
+                .MaxTotalPrice(filter.MaxTotalPrice);
+
+            return builder.GetCountAsync(cancellationToken);
+        }
+
         public Task<CustomerOrder?> GetByIdAsync(Guid id, bool withIncludes, CancellationToken cancellationToken)
         {
             var query = _dbSet.AsQueryable();
@@ -54,6 +65,11 @@ namespace Order.Infrastructure.Repositories
         public void Delete(CustomerOrder customerOrder)
         {
             _dbSet.Remove(customerOrder);
+        }
+
+        public Task SaveChangesAsync(CancellationToken cancellationToken)
+        {
+            return _dbContext.SaveChangesAsync(cancellationToken);
         }
     }
 }
