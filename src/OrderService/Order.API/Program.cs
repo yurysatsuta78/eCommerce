@@ -1,3 +1,4 @@
+using Order.Application.DI;
 using Order.Infrastructure.DI;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,7 +8,9 @@ services.AddControllers();
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
 
-services.AddDatabase(builder.Configuration);
+services
+    .AddDatabase(builder.Configuration)
+    .AddMediatR();
 
 var app = builder.Build();
 
