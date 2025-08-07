@@ -1,3 +1,4 @@
+using Orders.API.Middleware;
 using Orders.Application.DI;
 using Orders.Infrastructure.DI;
 
@@ -22,6 +23,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 
 app.UseAuthorization();
 app.MapControllers();
