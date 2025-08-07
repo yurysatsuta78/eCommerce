@@ -22,7 +22,10 @@ namespace MessageBroker.RabbitMQ.Clients
 
         public Task PublishAsync<TMessage>(TMessage message, string exchange, string routingKey) where TMessage : IMessage
         {
-            if (_disposed) { throw new ObjectDisposedException(nameof(RabbitMqProducer)); }
+            if (_disposed) 
+            { 
+                throw new ObjectDisposedException(nameof(RabbitMqProducer)); 
+            }
 
             try
             {

@@ -30,7 +30,10 @@ namespace MessageBroker.RabbitMQ.Clients
             where TMessage : IMessage
             where THandler : IMessageHandler<TMessage>
         {
-            if (_disposed) { throw new ObjectDisposedException(nameof(RabbitMqConsumer)); }
+            if (_disposed) 
+            { 
+                throw new ObjectDisposedException(nameof(RabbitMqConsumer)); 
+            }
 
             var channel = _connection.CreateModel();
             _consumerChannels.TryAdd(Guid.NewGuid(), channel);
