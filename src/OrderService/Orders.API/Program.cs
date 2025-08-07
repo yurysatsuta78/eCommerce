@@ -12,7 +12,8 @@ services
     .AddDatabase(builder.Configuration)
     .AddMediatR()
     .AddAutoMapper()
-    .AddRepositories();
+    .AddRepositories()
+    .AddValidators();
 
 var app = builder.Build();
 
