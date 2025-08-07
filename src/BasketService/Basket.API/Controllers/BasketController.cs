@@ -19,14 +19,18 @@ namespace Basket.API.Controllers
         [HttpGet("{customerId:guid}")]
         public async Task<IActionResult> GetByCustomerIdAsync(Guid customerId, CancellationToken cancellationToken) 
         {
-            return Ok(await _basketService.GetByCustomerIdAsync(customerId, cancellationToken));
+            var basket = await _basketService.GetByCustomerIdAsync(customerId, cancellationToken);
+
+            return Ok(basket);
         }
 
 
         [HttpPut("{customerId:guid}")]
         public async Task<IActionResult> UpdateAsync(Guid customerId, [FromBody] CustomerBasketDto dto, CancellationToken cancellationToken) 
         {
-            return Ok(await _basketService.UpdateAsync(customerId, dto, cancellationToken));
+            await _basketService.UpdateAsync(customerId, dto, cancellationToken);
+
+            return Ok();
         }
 
 
