@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using Orders.Application.Dto.Response;
+using Orders.Application.DTOs.Response;
 
 namespace Orders.Application.Features.OrderFeatures.Queries
 {
-    public record GetOrderByIdQuery : IRequest<OrderDto> 
+    public record GetOrderByIdQuery : IRequest<OrderResponse> 
     {
         public Guid OrderId { get; init; }
     }

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Orders.Application.Dto.Request;
+using Orders.Application.DTOs.Request;
 using Orders.Domain.QueryParams;
 
 namespace Orders.Infrastructure.MappingProfiles.FilterProfiles
@@ -8,7 +8,7 @@ namespace Orders.Infrastructure.MappingProfiles.FilterProfiles
     {
         public OrderFilterProfile() 
         {
-            CreateMap<GetFilteredOrdersDto, OrderFilterParams>();
+            CreateMap<GetFilteredOrdersRequest, OrderFilterParams>();
         }
     }
 }

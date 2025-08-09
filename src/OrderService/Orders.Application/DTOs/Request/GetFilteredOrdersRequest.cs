@@ -1,8 +1,8 @@
 ﻿using Orders.Domain.Enums;
 
-namespace Orders.Application.Dto.Request
+namespace Orders.Application.DTOs.Request
 {
-    public record GetFilteredOrdersDto(
+    public record GetFilteredOrdersRequest(
         Guid? CustomerId, 
         OrderStatuses? Status, 
         int PageNumber, 

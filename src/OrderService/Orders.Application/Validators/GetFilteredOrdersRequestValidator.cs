@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
-using Orders.Application.Dto.Request;
+using Orders.Application.DTOs.Request;
 
-namespace Orders.Application.DtoValidators
+namespace Orders.Application.Validators
 {
-    public class GetFilteredOrdersDtoValidator : AbstractValidator<GetFilteredOrdersDto>
+    public class GetFilteredOrdersRequestValidator : AbstractValidator<GetFilteredOrdersRequest>
     {
-        public GetFilteredOrdersDtoValidator() 
+        public GetFilteredOrdersRequestValidator() 
         {
             RuleFor(dto => dto.CustomerId)
                 .NotEqual(Guid.Empty)

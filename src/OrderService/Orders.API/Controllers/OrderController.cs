@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Orders.Application.Dto.Request;
+using Orders.Application.DTOs.Request;
 using Orders.Application.Features.OrderFeatures.Commands;
 using Orders.Application.Features.OrderFeatures.Queries;
 
@@ -18,10 +18,10 @@ namespace Orders.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetFilteredOrdersAsync([FromQuery] GetFilteredOrdersDto dto,
+        public async Task<IActionResult> GetFilteredOrdersAsync([FromQuery] GetFilteredOrdersRequest filter,
             CancellationToken cancellationToken)
         {
-            var query = new GetFilteredOrdersQuery { Filter = dto };
+            var query = new GetFilteredOrdersQuery { Filter = filter };
             var orders = await _mediator.Send(query, cancellationToken);
 
             return Ok(orders);
@@ -37,9 +37,9 @@ namespace Orders.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddOrderAsync([FromBody] CreateOrderDto dto, CancellationToken cancellationToken) 
+        public async Task<IActionResult> AddOrderAsync([FromBody] CreateOrderRequest data, CancellationToken cancellationToken) 
         {
-            var command = new CreateOrderCommand { Dto = dto };
+            var command = new CreateOrderCommand { Data = data };
             var newOrder = await _mediator.Send(command, cancellationToken);
 
             return Ok(newOrder);

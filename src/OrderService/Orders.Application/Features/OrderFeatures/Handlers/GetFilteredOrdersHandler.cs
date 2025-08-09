@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
-using Orders.Application.Dto.Common;
-using Orders.Application.Dto.Response;
+using Orders.Application.DTOs.Response;
 using Orders.Application.Features.OrderFeatures.Queries;
 using Orders.Domain.Interfaces;
 using Orders.Domain.QueryParams;
@@ -26,7 +25,7 @@ namespace Orders.Application.Features.OrderFeatures.Handlers
             var orders = await _ordersRepository.GetFilteredAsync(queryParams, cancellationToken);
             var ordersCount = await _ordersRepository.GetCountAsync(queryParams, cancellationToken);
 
-            var ordersDtos = _mapper.Map<IEnumerable<OrderDto>>(orders);
+            var ordersDtos = _mapper.Map<IEnumerable<OrderResponse>>(orders);
 
             return new PaginatedResponse(ordersDtos, ordersCount, queryParams.PageNumber, queryParams.PageSize);
         }

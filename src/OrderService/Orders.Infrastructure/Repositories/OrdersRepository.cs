@@ -48,23 +48,21 @@ namespace Orders.Infrastructure.Repositories
             return query.FirstOrDefaultAsync(co => co.Id == id, cancellationToken);
         }
 
-        public async Task AddAsync(Order order, CancellationToken cancellationToken)
+        public Task AddAsync(Order order, CancellationToken cancellationToken)
         {
-            await _dbSet.AddAsync(order, cancellationToken);
+            _dbSet.Add(order);
+            return _dbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public void Update(Order order)
+        public Task UpdateAsync(Order order, CancellationToken cancellationToken)
         {
             _dbSet.Update(order);
+            return _dbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public void Delete(Order order)
+        public Task DeleteAsync(Order order, CancellationToken cancellationToken)
         {
             _dbSet.Remove(order);
-        }
-
-        public Task SaveChangesAsync(CancellationToken cancellationToken)
-        {
             return _dbContext.SaveChangesAsync(cancellationToken);
         }
     }

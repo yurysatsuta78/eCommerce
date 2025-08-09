@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
-using Orders.Application.Dto.Request;
-using Orders.Application.Dto.Response;
+using Orders.Application.DTOs.Response;
 using Orders.Domain.Models;
 
 namespace Orders.Infrastructure.MappingProfiles
@@ -9,11 +8,7 @@ namespace Orders.Infrastructure.MappingProfiles
     {
         public OrderItemProfile() 
         {
-            CreateMap<CreateOrderItemDto, OrderItem>()
-                .ConvertUsing(dto => 
-                    OrderItem.Create(dto.ItemId, dto.Name, dto.Quantity, dto.Price));
-
-            CreateMap<OrderItem, OrderItemDto>();
+            CreateMap<OrderItem, OrderItemResponse>();
         }
     }
 }
