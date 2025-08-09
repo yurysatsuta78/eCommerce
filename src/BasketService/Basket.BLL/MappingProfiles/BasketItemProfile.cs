@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Basket.BLL.Dto;
+using Basket.BLL.DTOs;
 using Basket.DAL.Models;
 
 namespace Basket.BLL.MappingProfiles
@@ -8,7 +8,7 @@ namespace Basket.BLL.MappingProfiles
     {
         public BasketItemProfile() 
         {
-            CreateMap<BasketItemDto, BasketItemDb>().ReverseMap();
+            CreateMap<BasketItemDTO, BasketItemDb>().ReverseMap();
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Basket.BLL.Dto;
+using Basket.BLL.DTOs;
 using Basket.BLL.Exceptions;
 using Basket.BLL.Services.Interfaces;
 using Basket.DAL.Models;
@@ -18,48 +18,48 @@ namespace Basket.BLL.Services.Implementations
             _mapper = mapper;
         }
 
-        public async Task<CustomerBasketDto> GetByCustomerIdAsync(Guid customerId, CancellationToken cancellationToken)
+        public async Task<BasketDTO> GetByCustomerIdAsync(Guid customerId, CancellationToken cancellationToken)
         {
             var existingBasket = await _basketRepository.GetByCustomerIdAsync(customerId, cancellationToken);
 
             if (existingBasket != null) 
             {
-                return _mapper.Map<CustomerBasketDto>(existingBasket);
+                return _mapper.Map<BasketDTO>(existingBasket);
             }
 
-            var basket = new CustomerBasketDb()
+            var basket = new BasketDb()
             {
                 CustomerId = customerId,
-                Items = new List<BasketItemDb>()
+                BasketItems = new List<BasketItemDb>()
             };
 
             await _basketRepository.UpdateAsync(basket, cancellationToken);
 
-            return _mapper.Map<CustomerBasketDto>(basket);
+            return _mapper.Map<BasketDTO>(basket);
         }
 
 
-        public async Task<CustomerBasketDto> UpdateAsync(Guid customerId, CustomerBasketDto dto, CancellationToken cancellationToken)
+        public async Task<BasketDTO> UpdateAsync(Guid customerId, BasketDTO dto, CancellationToken cancellationToken)
         {
             var existingBasket = await _basketRepository.GetByCustomerIdAsync(customerId, cancellationToken);
 
             if (existingBasket != null) 
             {
-                existingBasket.Items = MapItems(dto.Items);
+                existingBasket.BasketItems = MapItems(dto.BasketItems);
                 await _basketRepository.UpdateAsync(existingBasket, cancellationToken);
 
-                return _mapper.Map<CustomerBasketDto>(existingBasket);
+                return _mapper.Map<BasketDTO>(existingBasket);
             }
 
-            var basket = new CustomerBasketDb()
+            var basket = new BasketDb()
             {
                 CustomerId = customerId,
-                Items = MapItems(dto.Items)
+                BasketItems = MapItems(dto.BasketItems)
             };
 
             await _basketRepository.UpdateAsync(basket, cancellationToken);
 
-            return _mapper.Map<CustomerBasketDto>(basket);
+            return _mapper.Map<BasketDTO>(basket);
         }
 
 
@@ -72,9 +72,9 @@ namespace Basket.BLL.Services.Implementations
         }
 
 
-        private List<BasketItemDb> MapItems(IEnumerable<BasketItemDto> items)
+        private List<BasketItemDb> MapItems(IEnumerable<BasketItemDTO> basketItems)
         {
-            return items.Select(item => _mapper.Map<BasketItemDb>(item)).ToList();
+            return basketItems.Select(item => _mapper.Map<BasketItemDb>(item)).ToList();
         }
     }
 }

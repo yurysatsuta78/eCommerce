@@ -1,10 +1,10 @@
-﻿namespace Basket.BLL.Dto
+﻿namespace Basket.BLL.DTOs
 {
-    public record BasketItemDto
+    public record BasketItemDTO
     {
         public Guid ItemId { get; init; }
         public string Name { get; init; }
-        public decimal Price { get; init; }
         public int Quantity { get; init; }
+        public decimal Price { get; init; }
     }
 }

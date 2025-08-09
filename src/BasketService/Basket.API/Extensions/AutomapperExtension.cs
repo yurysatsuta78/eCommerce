@@ -6,7 +6,7 @@ namespace Basket.API.Extensions
     {
         public static IServiceCollection AddMapper(this IServiceCollection services) 
         {
-            services.AddAutoMapper(assembly => assembly.AddMaps(typeof(CustomerBasketProfile).Assembly));
+            services.AddAutoMapper(assembly => assembly.AddMaps(typeof(BasketProfile).Assembly));
 
             return services;
         }

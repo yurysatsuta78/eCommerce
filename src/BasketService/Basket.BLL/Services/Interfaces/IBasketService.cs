@@ -1,11 +1,11 @@
-﻿using Basket.BLL.Dto;
+﻿using Basket.BLL.DTOs;
 
 namespace Basket.BLL.Services.Interfaces
 {
     public interface IBasketService
     {
-        Task<CustomerBasketDto> GetByCustomerIdAsync(Guid customerId, CancellationToken cancellationToken);
-        Task<CustomerBasketDto> UpdateAsync(Guid customerId, CustomerBasketDto dto, CancellationToken cancellationToken);
+        Task<BasketDTO> GetByCustomerIdAsync(Guid customerId, CancellationToken cancellationToken);
+        Task<BasketDTO> UpdateAsync(Guid customerId, BasketDTO dto, CancellationToken cancellationToken);
         Task DeleteAsync(Guid customerId, CancellationToken cancellationToken);
     }
 }
