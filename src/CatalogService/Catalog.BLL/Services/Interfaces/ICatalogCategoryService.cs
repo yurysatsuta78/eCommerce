@@ -1,14 +1,14 @@
-﻿using Catalog.BLL.Dto.Common;
-using Catalog.BLL.Dto.Request.CatalogCategory;
-using Catalog.BLL.Dto.Response.CatalogCategory;
+﻿using Catalog.BLL.DTOs.Request.CatalogCategory;
+using Catalog.BLL.DTOs.Response;
+using Catalog.BLL.DTOs.Response.CatalogCategory;
 
 namespace Catalog.BLL.Services.Interfaces
 {
     public interface ICatalogCategoryService
     {
-        Task<PaginatedResponse<CatalogCategoryDto>> GetPaginatedAsync(GetFilteredCategoriesDto dto, CancellationToken cancellationToken);
-        Task AddAsync(CreateCategoryDto dto, CancellationToken cancellationToken);
-        Task UpdateAsync(Guid id, UpdateCategoryDto dto, CancellationToken cancellationToken);
+        Task<PaginatedResponse<CatalogCategoryResponse>> GetFilteredAsync(GetFilteredCategoriesRequest filter, CancellationToken cancellationToken);
+        Task AddAsync(CreateCategoryRequest data, CancellationToken cancellationToken);
+        Task UpdateAsync(Guid id, UpdateCategoryRequest data, CancellationToken cancellationToken);
         Task DeleteAsync(Guid id, CancellationToken cancellationToken);
     }
 }

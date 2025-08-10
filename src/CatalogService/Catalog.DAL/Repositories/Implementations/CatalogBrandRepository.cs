@@ -14,7 +14,7 @@ namespace Catalog.DAL.Repositories.Implementations
 
         public CatalogBrandRepository(IDbConnectionFactory connectionFactory) : base(connectionFactory) { }
 
-        public async Task<IEnumerable<CatalogBrandDb>> GetPaginatedAsync(CatalogBrandQueryParams filter, CancellationToken cancellationToken)
+        public async Task<IEnumerable<CatalogBrandDb>> GetFilteredAsync(CatalogBrandQueryParams filter, CancellationToken cancellationToken)
         {
             var builder = new CatalogBrandQueryBuilder()
                 .NameContains(filter.Name);

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Catalog.BLL.Dto.Common;
-using Catalog.BLL.Dto.Request.CatalogBrand;
-using Catalog.BLL.Dto.Response.CatalogBrand;
+using Catalog.BLL.DTOs.Request.CatalogBrand;
+using Catalog.BLL.DTOs.Response;
+using Catalog.BLL.DTOs.Response.CatalogBrand;
 using Catalog.BLL.Exceptions;
 using Catalog.BLL.Models;
 using Catalog.BLL.Services.Interfaces;
@@ -22,32 +22,34 @@ namespace Catalog.BLL.Services.Implementations
             _mapper = mapper;
         }
 
-        public async Task<PaginatedResponse<CatalogBrandDto>> GetPaginatedAsync(GetFilteredBrandsDto dto, CancellationToken cancellationToken)
+        public async Task<PaginatedResponse<CatalogBrandResponse>> GetFilteredAsync(GetFilteredBrandsRequest filter, 
+            CancellationToken cancellationToken)
         {
-            var queryParams = _mapper.Map<CatalogBrandQueryParams>(dto);
+            var queryParams = _mapper.Map<CatalogBrandQueryParams>(filter);
 
-            var dataTask = _catalogBrandRepository.GetPaginatedAsync(queryParams, cancellationToken);
+            var dataTask = _catalogBrandRepository.GetFilteredAsync(queryParams, cancellationToken);
             var countTask = _catalogBrandRepository.GetCountAsync(queryParams, cancellationToken);
             await Task.WhenAll(dataTask, countTask);
 
-            var catalogBrandDtos = _mapper.Map<IEnumerable<CatalogBrandDto>>(dataTask.Result);
-            return new PaginatedResponse<CatalogBrandDto>(catalogBrandDtos, countTask.Result, queryParams.PageNumber, queryParams.PageSize);
+            var catalogBrandDtos = _mapper.Map<IEnumerable<CatalogBrandResponse>>(dataTask.Result);
+            return new PaginatedResponse<CatalogBrandResponse>(catalogBrandDtos, countTask.Result, queryParams.PageNumber, 
+                queryParams.PageSize);
         }
 
-        public Task AddAsync(CreateBrandDto dto, CancellationToken cancellationToken)
+        public Task AddAsync(CreateBrandRequest data, CancellationToken cancellationToken)
         {
-            var catalogBrandDb = _mapper.Map<CatalogBrandDb>(CatalogBrand.Create(Guid.NewGuid(), dto.Name));
+            var catalogBrandDb = _mapper.Map<CatalogBrandDb>(CatalogBrand.Create(Guid.NewGuid(), data.Name));
 
             return _catalogBrandRepository.AddAsync(catalogBrandDb, cancellationToken);
         }
 
-        public async Task UpdateAsync(Guid id, UpdateBrandDto dto, CancellationToken cancellationToken)
+        public async Task UpdateAsync(Guid id, UpdateBrandRequest data, CancellationToken cancellationToken)
         {
             var catalogBrandDb = await _catalogBrandRepository.GetByIdAsync(id, cancellationToken)
                 ?? throw new EntityNotFoundException($"{typeof(CatalogBrandDb)} entity with id: {id} not found.");
 
             var catalogBrand = _mapper.Map<CatalogBrand>(catalogBrandDb);
-            catalogBrand.ChangeName(dto.Name);
+            catalogBrand.ChangeName(data.Name);
 
             await _catalogBrandRepository.UpdateAsync(_mapper.Map<CatalogBrandDb>(catalogBrand), cancellationToken);
         }

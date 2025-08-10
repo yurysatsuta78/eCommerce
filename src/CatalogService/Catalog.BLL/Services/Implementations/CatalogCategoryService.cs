@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Catalog.BLL.Dto.Common;
-using Catalog.BLL.Dto.Request.CatalogCategory;
-using Catalog.BLL.Dto.Response.CatalogCategory;
+using Catalog.BLL.DTOs.Request.CatalogCategory;
+using Catalog.BLL.DTOs.Response;
+using Catalog.BLL.DTOs.Response.CatalogCategory;
 using Catalog.BLL.Exceptions;
 using Catalog.BLL.Models;
 using Catalog.BLL.Services.Interfaces;
@@ -22,32 +22,34 @@ namespace Catalog.BLL.Services.Implementations
             _mapper = mapper;
         }
 
-        public async Task<PaginatedResponse<CatalogCategoryDto>> GetPaginatedAsync(GetFilteredCategoriesDto dto, CancellationToken cancellationToken)
+        public async Task<PaginatedResponse<CatalogCategoryResponse>> GetFilteredAsync(GetFilteredCategoriesRequest filter, 
+            CancellationToken cancellationToken)
         {
-            var queryParams = _mapper.Map<CatalogCategoryQueryParams>(dto);
+            var queryParams = _mapper.Map<CatalogCategoryQueryParams>(filter);
 
-            var dataTask = _catalogCategoryRepository.GetPaginatedAsync(queryParams, cancellationToken);
+            var dataTask = _catalogCategoryRepository.GetFilteredAsync(queryParams, cancellationToken);
             var countTask = _catalogCategoryRepository.GetCountAsync(queryParams, cancellationToken);
             await Task.WhenAll(dataTask, countTask);
 
-            var catalogCategoryDtos = _mapper.Map<IEnumerable<CatalogCategoryDto>>(dataTask.Result);
-            return new PaginatedResponse<CatalogCategoryDto>(catalogCategoryDtos, countTask.Result, queryParams.PageNumber, queryParams.PageSize);
+            var catalogCategoryDtos = _mapper.Map<IEnumerable<CatalogCategoryResponse>>(dataTask.Result);
+            return new PaginatedResponse<CatalogCategoryResponse>(catalogCategoryDtos, countTask.Result, queryParams.PageNumber, 
+                queryParams.PageSize);
         }
 
-        public Task AddAsync(CreateCategoryDto dto, CancellationToken cancellationToken)
+        public Task AddAsync(CreateCategoryRequest data, CancellationToken cancellationToken)
         {
-            var catalogCategoryDb = _mapper.Map<CatalogCategoryDb>(CatalogCategory.Create(Guid.NewGuid(), dto.Name));
+            var catalogCategoryDb = _mapper.Map<CatalogCategoryDb>(CatalogCategory.Create(Guid.NewGuid(), data.Name));
 
             return _catalogCategoryRepository.AddAsync(catalogCategoryDb, cancellationToken);
         }
 
-        public async Task UpdateAsync(Guid id, UpdateCategoryDto dto, CancellationToken cancellationToken)
+        public async Task UpdateAsync(Guid id, UpdateCategoryRequest data, CancellationToken cancellationToken)
         {
             var catalogCategoryDb = await _catalogCategoryRepository.GetByIdAsync(id, cancellationToken)
                 ?? throw new EntityNotFoundException($"{typeof(CatalogCategoryDb)} entity with id: {id} not found.");
 
             var catalogCategory = _mapper.Map<CatalogCategory>(catalogCategoryDb);
-            catalogCategory.ChangeName(dto.Name);
+            catalogCategory.ChangeName(data.Name);
 
             await _catalogCategoryRepository.UpdateAsync(_mapper.Map<CatalogCategoryDb>(catalogCategory), cancellationToken);
         }
