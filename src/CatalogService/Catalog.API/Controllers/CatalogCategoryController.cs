@@ -1,4 +1,4 @@
-﻿using Catalog.BLL.Dto.Request.CatalogCategory;
+﻿using Catalog.BLL.DTOs.Request.CatalogCategory;
 using Catalog.BLL.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,26 +16,27 @@ namespace Catalog.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetFilteredCategoriesAsync([FromQuery] GetFilteredCategoriesDto dto, 
+        public async Task<IActionResult> GetFilteredCategoriesAsync([FromQuery] GetFilteredCategoriesRequest filter, 
             CancellationToken cancellationToken)
         {
-            var filteredItems = await _catalogCategoryService.GetPaginatedAsync(dto, cancellationToken);
+            var filteredItems = await _catalogCategoryService.GetFilteredAsync(filter, cancellationToken);
 
             return Ok(filteredItems);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNewCategoryAsync([FromBody] CreateCategoryDto dto, CancellationToken cancellationToken)
+        public async Task<IActionResult> AddNewCategoryAsync([FromBody] CreateCategoryRequest data, CancellationToken cancellationToken)
         {
-            await _catalogCategoryService.AddAsync(dto, cancellationToken);
+            await _catalogCategoryService.AddAsync(data, cancellationToken);
 
-            return StatusCode(StatusCodes.Status201Created);
+            return Created();
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<IActionResult> UpdateCategoryAsync(Guid id, [FromBody] UpdateCategoryDto dto, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateCategoryAsync(Guid id, [FromBody] UpdateCategoryRequest data, 
+            CancellationToken cancellationToken)
         {
-            await _catalogCategoryService.UpdateAsync(id, dto, cancellationToken);
+            await _catalogCategoryService.UpdateAsync(id, data, cancellationToken);
 
             return NoContent();
         }

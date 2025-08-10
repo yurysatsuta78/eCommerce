@@ -1,5 +1,6 @@
-﻿using Catalog.BLL.Dto.Request.CatalogBrand;
+﻿using Catalog.BLL.DTOs.Request.CatalogBrand;
 using Catalog.BLL.Services.Interfaces;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Catalog.API.Controllers
@@ -16,25 +17,26 @@ namespace Catalog.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetFilteredBrandsAsync([FromQuery] GetFilteredBrandsDto dto, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetFilteredBrandsAsync([FromQuery] GetFilteredBrandsRequest filter, 
+            CancellationToken cancellationToken)
         {
-            var filteredItems = await _catalogBrandService.GetPaginatedAsync(dto, cancellationToken);
+            var filteredItems = await _catalogBrandService.GetFilteredAsync(filter, cancellationToken);
 
             return Ok(filteredItems);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNewBrandAsync([FromBody] CreateBrandDto dto, CancellationToken cancellationToken)
+        public async Task<IActionResult> AddNewBrandAsync([FromBody] CreateBrandRequest data, CancellationToken cancellationToken)
         {
-            await _catalogBrandService.AddAsync(dto, cancellationToken);
+            await _catalogBrandService.AddAsync(data, cancellationToken);
 
-            return StatusCode(StatusCodes.Status201Created);
+            return Created();
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<IActionResult> UpdateBrandAsync(Guid id, [FromBody] UpdateBrandDto dto, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateBrandAsync(Guid id, [FromBody] UpdateBrandRequest data, CancellationToken cancellationToken)
         {
-            await _catalogBrandService.UpdateAsync(id, dto, cancellationToken);
+            await _catalogBrandService.UpdateAsync(id, data, cancellationToken);
 
             return NoContent();
         }

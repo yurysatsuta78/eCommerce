@@ -3,11 +3,11 @@ using Catalog.BLL.Exceptions;
 
 namespace Catalog.API.Middleware
 {
-    public class GlobalExceptionHandler
+    public class GlobalExceptionHandlerMiddleware
     {
         private readonly RequestDelegate _next;
 
-        public GlobalExceptionHandler(RequestDelegate next)
+        public GlobalExceptionHandlerMiddleware(RequestDelegate next)
         {
             _next = next;
         }
@@ -31,9 +31,6 @@ namespace Catalog.API.Middleware
 
             switch (exception)
             {
-                case ArgumentException:
-                    statusCode = (int)HttpStatusCode.BadRequest;
-                    break;
                 case CatalogDomainException:
                     statusCode = (int)HttpStatusCode.BadRequest;
                     break;

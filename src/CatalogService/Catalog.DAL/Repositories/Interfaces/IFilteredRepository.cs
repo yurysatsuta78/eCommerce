@@ -7,7 +7,7 @@ namespace Catalog.DAL.Repositories.Interfaces
         where TEntity : Entity
         where TFilter : FilterParams
     {
-        public Task<IEnumerable<TEntity>> GetPaginatedAsync(TFilter filter, CancellationToken cancellationToken);
+        public Task<IEnumerable<TEntity>> GetFilteredAsync(TFilter filter, CancellationToken cancellationToken);
         public Task<int> GetCountAsync(TFilter filter, CancellationToken cancellationToken);
     }
 }

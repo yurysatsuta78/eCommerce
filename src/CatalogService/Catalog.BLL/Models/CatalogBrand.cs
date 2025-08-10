@@ -1,4 +1,6 @@
-﻿namespace Catalog.BLL.Models
+﻿using Catalog.BLL.Exceptions;
+
+namespace Catalog.BLL.Models
 {
     public class CatalogBrand
     {
@@ -16,7 +18,7 @@
         public static CatalogBrand Create(Guid id, string name)
         {
             if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentException("Name cannot be empty.");
+                throw new CatalogDomainException("Name cannot be empty.");
 
             return new CatalogBrand(id, name);
         }

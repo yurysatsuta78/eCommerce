@@ -1,4 +1,4 @@
-﻿using Catalog.BLL.Dto.Request.CatalogItem;
+﻿using Catalog.BLL.DTOs.Request.CatalogItem;
 using Catalog.BLL.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,49 +16,52 @@ namespace Catalog.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetFilteredItemsAsync([FromQuery] GetFilteredCatalogItemsDto dto, CancellationToken cancellationToken) 
+        public async Task<IActionResult> GetFilteredItemsAsync([FromQuery] GetFilteredCatalogItemsRequest filter, 
+            CancellationToken cancellationToken) 
         {
-            var filteredItems = await _catalogItemService.GetPaginatedAsync(dto, cancellationToken);
+            var filteredItems = await _catalogItemService.GetFilteredAsync(filter, cancellationToken);
 
             return Ok(filteredItems);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNewItemAsync([FromBody] CreateCatalogItemDto dto, CancellationToken cancellationToken) 
+        public async Task<IActionResult> AddNewItemAsync([FromBody] CreateCatalogItemRequest data, CancellationToken cancellationToken) 
         {
-            await _catalogItemService.AddAsync(dto, cancellationToken);
+            await _catalogItemService.AddAsync(data, cancellationToken);
 
-            return StatusCode(StatusCodes.Status201Created);
+            return Created();
         }
 
         [HttpPost("{id:guid}/stock/decrement")]
-        public async Task<IActionResult> AddStockAsync(Guid id, [FromBody] RemoveStockDto dto, CancellationToken cancellationToken) 
+        public async Task<IActionResult> AddStockAsync(Guid id, [FromBody] RemoveStockRequest data, CancellationToken cancellationToken) 
         {
-            var result = await _catalogItemService.RemoveStockAsync(id, dto, cancellationToken);
+            var result = await _catalogItemService.RemoveStockAsync(id, data, cancellationToken);
 
             return Ok(result);
         }
 
         [HttpPost("{id:guid}/stock/increment")]
-        public async Task<IActionResult> AddStockAsync(Guid id, [FromBody] AddStockDto dto, CancellationToken cancellationToken)
+        public async Task<IActionResult> AddStockAsync(Guid id, [FromBody] AddStockRequest data, CancellationToken cancellationToken)
         {
-            var result = await _catalogItemService.AddStockAsync(id, dto, cancellationToken);
+            var result = await _catalogItemService.AddStockAsync(id, data, cancellationToken);
 
             return Ok(result);
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<IActionResult> UpdateItemAsync(Guid id, [FromBody] UpdateCatalogItemDto dto, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateItemAsync(Guid id, [FromBody] UpdateCatalogItemRequest data, 
+            CancellationToken cancellationToken)
         {
-            await _catalogItemService.UpdateAsync(id, dto, cancellationToken);
+            await _catalogItemService.UpdateAsync(id, data, cancellationToken);
 
             return NoContent();
         }
 
         [HttpPatch("{id:guid}")]
-        public async Task<IActionResult> PartialUpdateItemAsync(Guid id, [FromBody] UpdateCatalogItemDto dto, CancellationToken cancellationToken) 
+        public async Task<IActionResult> PartialUpdateItemAsync(Guid id, [FromBody] UpdateCatalogItemRequest data, 
+            CancellationToken cancellationToken) 
         {
-            await _catalogItemService.UpdateAsync(id, dto, cancellationToken);
+            await _catalogItemService.UpdateAsync(id, data, cancellationToken);
 
             return NoContent();
         }

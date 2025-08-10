@@ -10,12 +10,14 @@ services.AddSwaggerGen();
 
 services
     .AddDatabase(builder.Configuration)
-    .AddRepositories()
     .AddBLLServices()
-    .AddAutomapperProfiles()
+    .AddMapper()
+    .AddRepositories()
     .AddValidators();
 
 var app = builder.Build();
+
+app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
@@ -23,9 +25,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseMiddleware<GlobalExceptionHandler>();
-
+app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapControllers();
 
 app.Run();
