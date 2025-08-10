@@ -1,5 +1,7 @@
+using Microsoft.EntityFrameworkCore;
 using Orders.API.Middleware;
 using Orders.Application.DI;
+using Orders.Infrastructure.Data;
 using Orders.Infrastructure.DI;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +19,12 @@ services
     .AddValidators();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<OrdersDbContext>();
+    db.Database.Migrate();
+}
 
 if (app.Environment.IsDevelopment())
 {

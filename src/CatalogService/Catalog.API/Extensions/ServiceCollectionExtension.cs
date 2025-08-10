@@ -14,10 +14,8 @@ namespace Catalog.API.Extensions
     {
         public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration) 
         {
-            const string connectionName = "CatalogConnection";
-
-            var connectionString = configuration.GetConnectionString(connectionName)
-                ?? throw new InvalidOperationException($"Connection string '{connectionName}' was not found in the configuration.");
+            var connectionString = Environment.GetEnvironmentVariable("CATALOG_CONNECTION")
+                ?? throw new InvalidOperationException($"Catalog connection string was not found in the environment.");
 
             services.AddSingleton<IDbConnectionFactory>(new NpgConnectionFactory(connectionString));
             return services;

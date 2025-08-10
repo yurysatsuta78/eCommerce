@@ -1,0 +1,102 @@
+services:
+
+  orders.api:
+    container_name: orders.api
+    build:
+      context: ./src
+      dockerfile: OrderService/Orders.API/Dockerfile
+    ports:
+      - "${ORDERS_API_PORT}:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - ORDERS_CONNECTION=Host=postgres;Port=5432;Database=${ORDERS_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
+
+  catalog.api:
+    container_name: catalog.api
+    build:
+      context: ./src
+      dockerfile: CatalogService/Catalog.API/Dockerfile
+    ports:
+      - "${CATALOG_API_PORT}:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - CATALOG_CONNECTION=Host=postgres;Port=5432;Database=${CATALOG_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
+
+  basket.api:
+    container_name: basket.api
+    build:
+      context: ./src
+      dockerfile: BasketService/Basket.API/Dockerfile
+    ports:
+      - "${BASKET_API_PORT}:8080"
+    depends_on:
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - BASKET_CONNECTION=${REDIS_CONNECTION}
+      - EXPIRY_DAYS=${REDIS_EXPIRY_DAYS}
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASS}
+    volumes:
+      - rabbitmqdata:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 3s
+      timeout: 3s
+      retries: 15
+
+  postgres:
+    container_name: postgres
+    image: postgres:15
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./src/CatalogService/DatabaseScripts:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 3s
+      timeout: 3s
+      retries: 15
+
+  redis:
+    container_name: redis
+    image: redis:7
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      timeout: 3s
+      retries: 15
+
+volumes:
+  pgdata:
+  redisdata:
+  rabbitmqdata:  
