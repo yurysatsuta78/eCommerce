@@ -21,7 +21,7 @@ namespace Basket.DAL.Repositories.Implementations
         }
 
 
-        public async Task<CustomerBasketDb?> GetByCustomerIdAsync(Guid customerId, CancellationToken cancellationToken)
+        public async Task<BasketDb?> GetByCustomerIdAsync(Guid customerId, CancellationToken cancellationToken)
         {
             var json = await _cache.GetStringAsync(customerId.ToString(), cancellationToken);
 
@@ -30,11 +30,11 @@ namespace Basket.DAL.Repositories.Implementations
                 return null;
             }
 
-            return JsonSerializer.Deserialize<CustomerBasketDb>(json);
+            return JsonSerializer.Deserialize<BasketDb>(json);
         }
 
 
-        public Task UpdateAsync(CustomerBasketDb basket, CancellationToken cancellationToken)
+        public Task UpdateAsync(BasketDb basket, CancellationToken cancellationToken)
         {
             var json = JsonSerializer.Serialize(basket);
 

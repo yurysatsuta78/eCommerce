@@ -12,10 +12,12 @@ services
     .AddRedisCache(builder.Configuration)
     .AddRepositories()
     .AddBLLServices()
-    .AddMapper();
-
+    .AddMapper()
+    .AddValidators();
 
 var app = builder.Build();
+
+app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
@@ -23,9 +25,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
-
+app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapControllers();
 
 app.Run();

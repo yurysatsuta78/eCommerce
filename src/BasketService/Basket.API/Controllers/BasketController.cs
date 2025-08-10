@@ -1,4 +1,4 @@
-﻿using Basket.BLL.Dto;
+﻿using Basket.BLL.DTOs;
 using Basket.BLL.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,7 +26,7 @@ namespace Basket.API.Controllers
 
 
         [HttpPut("{customerId:guid}")]
-        public async Task<IActionResult> UpdateAsync(Guid customerId, [FromBody] CustomerBasketDto dto, CancellationToken cancellationToken) 
+        public async Task<IActionResult> UpdateAsync(Guid customerId, [FromBody] BasketDTO dto, CancellationToken cancellationToken) 
         {
             await _basketService.UpdateAsync(customerId, dto, cancellationToken);
 
