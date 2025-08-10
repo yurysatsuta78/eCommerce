@@ -8,25 +8,28 @@ namespace Orders.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Order> builder) 
         {
-            builder.HasKey(co => co.Id);
+            builder.HasKey(o => o.Id);
 
             builder.ToTable("Orders");
 
-            builder.Property(co => co.CustomerId)
+            builder.Property(o => o.CustomerId)
                 .IsRequired();
 
-            builder.Property(co => co.Status)
+            builder.Property(o => o.Status)
                 .HasConversion<string>()
                 .IsRequired();
 
-            builder.HasMany(co => co.OrderItems)
+            builder.Property(o => o.CreatedAt)
+                .IsRequired();
+
+            builder.HasMany(o => o.OrderItems)
                 .WithOne()
                 .HasForeignKey("OrderId")
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
             builder.Metadata.FindNavigation(nameof(Order.OrderItems))?.SetField("_orderItems");
 
-            builder.Ignore(co => co.TotalPrice);
+            builder.Ignore(o => o.TotalPrice);
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace Orders.Application.Dto.Request
+﻿namespace Orders.Application.DTOs.Request
 {
-    public record CreateOrderItemDto(
+    public record CreateOrderItemRequest(
         Guid ItemId, 
         string Name, 
         int Quantity, 

@@ -1,11 +1,11 @@
 ﻿using MediatR;
-using Orders.Application.Dto.Request;
-using Orders.Application.Dto.Response;
+using Orders.Application.DTOs.Request;
+using Orders.Application.DTOs.Response;
 
 namespace Orders.Application.Features.OrderFeatures.Commands
 {
-    public record CreateOrderCommand : IRequest<OrderDto>
+    public record CreateOrderCommand : IRequest<OrderResponse>
     {
-        public CreateOrderDto Dto { get; init; } = default!;
+        public CreateOrderRequest Data { get; init; } = default!;
     }
 }

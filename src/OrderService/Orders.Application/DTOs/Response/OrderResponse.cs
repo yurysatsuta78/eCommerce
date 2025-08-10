@@ -1,13 +1,14 @@
 ﻿using Orders.Domain.Enums;
 
-namespace Orders.Application.Dto.Response
+namespace Orders.Application.DTOs.Response
 {
-    public record OrderDto
+    public record OrderResponse
     {
         public Guid Id { get; init; }
         public Guid CustomerId { get; init; }
         public OrderStatuses Status { get; init; }
+        public DateTime CreatedAt { get; init; }
         public decimal TotalPrice { get; init; }
-        public List<OrderItemDto> OrderItems { get; init; } = new();
+        public List<OrderItemResponse> OrderItems { get; init; } = new();
     }
 }

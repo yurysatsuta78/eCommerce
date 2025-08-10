@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
-using Orders.Application.Dto.Request;
+using Orders.Application.DTOs.Request;
 
-namespace Orders.Application.DtoValidators
+namespace Orders.Application.Validators
 {
-    public class CreateOrderItemDtoValidator : AbstractValidator<CreateOrderItemDto>
+    public class CreateOrderItemRequestValidator : AbstractValidator<CreateOrderItemRequest>
     {
-        public CreateOrderItemDtoValidator() 
+        public CreateOrderItemRequestValidator() 
         {
             RuleFor(item => item.ItemId)
                 .NotEmpty()

@@ -20,8 +20,7 @@ namespace Orders.Application.Features.OrderFeatures.Handlers
             var order = await _ordersRepository.GetByIdAsync(request.OrderId, false, cancellationToken)
                 ?? throw new OrderNotFoundException($"Order with id: {request.OrderId} not found.");
 
-            _ordersRepository.Delete(order);
-            await _ordersRepository.SaveChangesAsync(cancellationToken);
+            await _ordersRepository.DeleteAsync(order, cancellationToken);
         }
     }
 }

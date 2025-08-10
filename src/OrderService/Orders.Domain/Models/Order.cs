@@ -11,6 +11,7 @@ namespace Orders.Domain.Models
         public Guid CustomerId { get; private set; }
         public OrderStatuses Status { get; private set; }
         public decimal TotalPrice => OrderItems.Sum(x => x.TotalPrice);
+        public DateTime CreatedAt { get; private set; }
         public IReadOnlyCollection<OrderItem> OrderItems => _orderItems;
 
         private Order() { }
@@ -20,6 +21,7 @@ namespace Orders.Domain.Models
             Id = id;
             CustomerId = customerId;
             Status = OrderStatuses.Pending;
+            CreatedAt = DateTime.UtcNow;
             _orderItems = new List<OrderItem>(orderItems);
         }
 
