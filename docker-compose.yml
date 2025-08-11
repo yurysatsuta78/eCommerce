@@ -5,49 +5,54 @@ services:
     build:
       context: ./src
       dockerfile: OrderService/Orders.API/Dockerfile
+    env_file: 
+      - ./src/OrderService/Orders.API/.env
     ports:
-      - "${ORDERS_API_PORT}:8080"
+      - "5001:8080"
     depends_on:
       postgres:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
     environment:
-      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
-      - ORDERS_CONNECTION=Host=postgres;Port=5432;Database=${ORDERS_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
+      - RABBITMQ_USER=${RABBITMQ_USER}
+      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
 
   catalog.api:
     container_name: catalog.api
     build:
       context: ./src
       dockerfile: CatalogService/Catalog.API/Dockerfile
+    env_file: 
+      - ./src/CatalogService/Catalog.API/.env
     ports:
-      - "${CATALOG_API_PORT}:8080"
+      - "5002:8080"
     depends_on:
       postgres:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
     environment:
-      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
-      - CATALOG_CONNECTION=Host=postgres;Port=5432;Database=${CATALOG_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
+      - RABBITMQ_USER=${RABBITMQ_USER}
+      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
 
   basket.api:
     container_name: basket.api
     build:
       context: ./src
       dockerfile: BasketService/Basket.API/Dockerfile
+    env_file: 
+      - ./src/BasketService/Basket.API/.env
     ports:
-      - "${BASKET_API_PORT}:8080"
+      - "5003:8080"
     depends_on:
       redis:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
     environment:
-      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
-      - BASKET_CONNECTION=${REDIS_CONNECTION}
-      - EXPIRY_DAYS=${REDIS_EXPIRY_DAYS}
+      - RABBITMQ_USER=${RABBITMQ_USER}
+      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
 
   rabbitmq:
     container_name: rabbitmq
@@ -57,7 +62,7 @@ services:
       - "15672:15672"
     environment:
       - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
-      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASS}
+      - RABBITMQ_DEFAULT_PASSWORD=${RABBITMQ_PASSWORD}
     volumes:
       - rabbitmqdata:/var/lib/rabbitmq
     healthcheck:
