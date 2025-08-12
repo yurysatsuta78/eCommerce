@@ -13,7 +13,8 @@ services
     .AddBLLServices()
     .AddMapper()
     .AddRepositories()
-    .AddValidators();
+    .AddValidators()
+    .AddGrpc();
 
 var app = builder.Build();
 
@@ -28,6 +29,7 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapGrpcServices();
 app.MapControllers();
 
 app.Run();

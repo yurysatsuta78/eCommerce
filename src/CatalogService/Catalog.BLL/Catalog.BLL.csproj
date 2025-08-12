@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Protobuf Include="..\..\GrpcContracts\Grpc.Contracts\Protos/catalog.proto" GrpcServices="Server" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <ProjectReference Include="..\..\GrpcContracts\Grpc.Contracts\Grpc.Contracts.csproj" />
     <ProjectReference Include="..\Catalog.DAL\Catalog.DAL.csproj" />
   </ItemGroup>
 
@@ -14,6 +19,7 @@
     <PackageReference Include="AutoMapper" Version="15.0.1" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.1" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.71.0" />
   </ItemGroup>
 
 </Project>

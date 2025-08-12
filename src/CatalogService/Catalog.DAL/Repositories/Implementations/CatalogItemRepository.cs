@@ -117,6 +117,25 @@ namespace Catalog.DAL.Repositories.Implementations
             return result.FirstOrDefault();
         }
 
+        public async Task<IEnumerable<CatalogItemDb>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken cancellationToken)
+        {
+            if (ids == null || !ids.Any())
+                return Enumerable.Empty<CatalogItemDb>();
+
+            var sql = $"""
+            SELECT id, name, price, available_stock AS {nameof(CatalogItemDb.AvailableStock)}
+            FROM {TableName}
+            WHERE id = ANY(@Ids)
+            """;
+
+            using var connection = _connectionFactory.CreateConnection();
+            var result = await connection.QueryAsync<CatalogItemDb>(
+                new CommandDefinition(sql, new { Ids = ids.ToArray() }, cancellationToken: cancellationToken)
+            );
+
+            return result;
+        }
+
         public override async Task AddAsync(CatalogItemDb entity, CancellationToken cancellationToken)
         {
             var sql = $"""

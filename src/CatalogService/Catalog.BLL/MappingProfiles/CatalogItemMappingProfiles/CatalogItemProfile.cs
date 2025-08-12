@@ -2,6 +2,7 @@
 using Catalog.BLL.DTOs.Response.CatalogItem;
 using Catalog.BLL.Models;
 using Catalog.DAL.Models;
+using Grpc.Contracts.ProtoBase;
 
 namespace Catalog.BLL.MappingProfiles.CatalogItemMappingProfiles
 {
@@ -18,6 +19,10 @@ namespace Catalog.BLL.MappingProfiles.CatalogItemMappingProfiles
             CreateMap<CatalogItem, CatalogItemResponse>();
 
             CreateMap<CatalogItemDb, CatalogItemResponse>();
+
+            CreateMap<CatalogItemDb, CatalogItemDTO>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
+                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => Convert.ToDouble(src.Price)));
         }
     }
 }
