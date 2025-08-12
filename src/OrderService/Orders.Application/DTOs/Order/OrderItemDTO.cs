@@ -1,6 +1,6 @@
-﻿namespace Orders.Application.DTOs.Response
+﻿namespace Orders.Application.DTOs.Order
 {
-    public record OrderItemResponse
+    public record OrderItemDTO
     {
         public Guid ItemId { get; init; }
         public string Name { get; init; } = default!;

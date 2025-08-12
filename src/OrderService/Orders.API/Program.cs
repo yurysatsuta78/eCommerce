@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Orders.API.Middleware;
-using Orders.Application.DI;
+using Orders.Application;
+using Orders.Infrastructure;
 using Orders.Infrastructure.Data;
-using Orders.Infrastructure.DI;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -12,12 +12,8 @@ services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
 
 services
-    .AddDatabase(builder.Configuration)
-    .AddMediatR()
-    .AddAutoMapper()
-    .AddRepositories()
-    .AddValidators()
-    .AddRabbitMq();
+    .AddInfrastructure(builder.Configuration)
+    .AddApplication();
 
 var app = builder.Build();
 

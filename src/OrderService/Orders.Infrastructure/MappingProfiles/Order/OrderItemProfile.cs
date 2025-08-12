@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
-using Orders.Application.DTOs.Response;
+using Orders.Application.DTOs.Order;
 using Orders.Domain.Models;
 
-namespace Orders.Infrastructure.MappingProfiles
+namespace Orders.Infrastructure.MappingProfiles.Order
 {
     public class OrderItemProfile : Profile
     {
         public OrderItemProfile() 
         {
-            CreateMap<OrderItem, OrderItemResponse>();
+            CreateMap<OrderItem, OrderItemDTO>();
         }
     }
 }

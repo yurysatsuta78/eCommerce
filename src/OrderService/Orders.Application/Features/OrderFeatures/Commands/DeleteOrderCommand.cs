@@ -4,6 +4,6 @@ namespace Orders.Application.Features.OrderFeatures.Commands
 {
     public record DeleteOrderCommand : IRequest 
     {
-        public Guid OrderId { get; init; }
+        public Guid Id { get; init; }
     }
 }

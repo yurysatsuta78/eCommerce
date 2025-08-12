@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
 using MediatR;
-using Orders.Application.DTOs.Response;
+using Orders.Application.DTOs;
+using Orders.Application.DTOs.Order;
 using Orders.Application.Features.OrderFeatures.Queries;
 using Orders.Domain.Interfaces;
 using Orders.Domain.QueryParams;
 
 namespace Orders.Application.Features.OrderFeatures.Handlers
 {
-    public class GetFilteredOrdersHandler : IRequestHandler<GetFilteredOrdersQuery, PaginatedResponse>
+    public class GetFilteredOrdersHandler : IRequestHandler<GetFilteredOrdersQuery, PaginatedItemsDTO>
     {
         private readonly IOrdersRepository _ordersRepository;
         private readonly IMapper _mapper;
@@ -18,16 +19,16 @@ namespace Orders.Application.Features.OrderFeatures.Handlers
             _mapper = mapper;
         }
 
-        public async Task<PaginatedResponse> Handle(GetFilteredOrdersQuery request, CancellationToken cancellationToken)
+        public async Task<PaginatedItemsDTO> Handle(GetFilteredOrdersQuery request, CancellationToken cancellationToken)
         {
             var queryParams = _mapper.Map<OrderFilterParams>(request.Filter);
 
             var orders = await _ordersRepository.GetFilteredAsync(queryParams, cancellationToken);
             var ordersCount = await _ordersRepository.GetCountAsync(queryParams, cancellationToken);
 
-            var ordersDtos = _mapper.Map<IEnumerable<OrderResponse>>(orders);
+            var orderDtos = _mapper.Map<IEnumerable<OrderDTO>>(orders);
 
-            return new PaginatedResponse(ordersDtos, ordersCount, queryParams.PageNumber, queryParams.PageSize);
+            return new PaginatedItemsDTO(orderDtos, ordersCount, queryParams.PageNumber, queryParams.PageSize);
         }
     }
 }

@@ -1,10 +1,10 @@
 ﻿using MediatR;
-using Orders.Application.DTOs.Response;
+using Orders.Application.DTOs.Order;
 
 namespace Orders.Application.Features.OrderFeatures.Queries
 {
-    public record GetOrderByIdQuery : IRequest<OrderResponse> 
+    public record GetOrderByIdQuery : IRequest<OrderDTO> 
     {
-        public Guid OrderId { get; init; }
+        public Guid Id { get; init; }
     }
 }

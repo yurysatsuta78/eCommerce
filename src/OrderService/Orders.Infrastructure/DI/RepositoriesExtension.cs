@@ -4,7 +4,7 @@ using Orders.Infrastructure.Repositories;
 
 namespace Orders.Infrastructure.DI
 {
-    public static class RepositoryExtension
+    public static class RepositoriesExtension
     {
         public static IServiceCollection AddRepositories(this IServiceCollection services) 
         {

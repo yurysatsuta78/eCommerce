@@ -7,6 +7,7 @@ COPY OrderService/Orders.Application/Orders.Application.csproj OrderService/Orde
 COPY OrderService/Orders.Domain/Orders.Domain.csproj OrderService/Orders.Domain/
 COPY MessageBrokerAbstractionService/MessageBroker.Abstraction/MessageBroker.Abstraction.csproj MessageBrokerAbstractionService/MessageBroker.Abstraction/
 COPY MessageBrokerAbstractionService/MessageBroker.RabbitMQ/MessageBroker.RabbitMQ.csproj MessageBrokerAbstractionService/MessageBroker.RabbitMQ/
+COPY GrpcContracts/Grpc.Contracts/Grpc.Contracts.csproj GrpcContracts/Grpc.Contracts/
 
 RUN dotnet restore "OrderService/Orders.API/Orders.API.csproj"
 COPY . .

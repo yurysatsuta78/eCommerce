@@ -1,11 +1,10 @@
 ﻿using MediatR;
-using Orders.Application.DTOs.Request;
-using Orders.Application.DTOs.Response;
+using Orders.Application.DTOs.Basket;
 
 namespace Orders.Application.Features.OrderFeatures.Commands
 {
-    public record CreateOrderCommand : IRequest<OrderResponse>
+    public record CreateOrderCommand : IRequest
     {
-        public CreateOrderRequest Data { get; init; } = default!;
+        public BasketDTO Basket { get; init; } = default!;
     }
 }

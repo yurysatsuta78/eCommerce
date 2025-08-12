@@ -17,8 +17,8 @@ namespace Orders.Application.Features.OrderFeatures.Handlers
 
         public async Task Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
         {
-            var order = await _ordersRepository.GetByIdAsync(request.OrderId, false, cancellationToken)
-                ?? throw new OrderNotFoundException($"Order with id: {request.OrderId} not found.");
+            var order = await _ordersRepository.GetByIdAsync(request.Id, false, cancellationToken)
+                ?? throw new OrderNotFoundException($"Order with id: {request.Id} not found.");
 
             await _ordersRepository.DeleteAsync(order, cancellationToken);
         }

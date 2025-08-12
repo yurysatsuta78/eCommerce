@@ -7,7 +7,7 @@ namespace Basket.API.Extensions
         public static IServiceCollection AddRedisCache(this IServiceCollection services, IConfiguration configuration) 
         {
             var connectionString = Environment.GetEnvironmentVariable("BASKET_CONNECTION")
-                ?? throw new InvalidOperationException($"Basket connection string was not found in the environment.");
+                ?? throw new InvalidOperationException($"Basket connection string not found in the environment.");
 
             services.AddStackExchangeRedisCache(options =>
             {

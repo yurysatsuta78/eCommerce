@@ -7,12 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Protobuf Include="..\..\GrpcContracts\Grpc.Contracts\Protos\catalog.proto" GrpcServices="Client" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <ProjectReference Include="..\..\GrpcContracts\Grpc.Contracts\Grpc.Contracts.csproj" />
     <ProjectReference Include="..\..\MessageBrokerAbstractionService\MessageBroker.RabbitMQ\MessageBroker.RabbitMQ.csproj" />
     <ProjectReference Include="..\Orders.Application\Orders.Application.csproj" />
     <ProjectReference Include="..\Orders.Domain\Orders.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Grpc.AspNetCore" Version="2.71.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
   </ItemGroup>
 
