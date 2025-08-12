@@ -16,7 +16,8 @@ services
     .AddMediatR()
     .AddAutoMapper()
     .AddRepositories()
-    .AddValidators();
+    .AddValidators()
+    .AddRabbitMq();
 
 var app = builder.Build();
 

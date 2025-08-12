@@ -17,7 +17,6 @@ namespace MessageBroker.RabbitMQ.Extensions
             {
                 HostName = options.HostName,
                 Port = options.Port,
-                VirtualHost = options.VirtualHost,
                 UserName = options.UserName,
                 Password = options.Password,
                 DispatchConsumersAsync = true

@@ -14,7 +14,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\MessageBrokerAbstractionService\MessageBroker.Abstraction\MessageBroker.Abstraction.csproj" />
     <ProjectReference Include="..\Orders.Domain\Orders.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Events\" />
+    <Folder Include="Messaging\" />
   </ItemGroup>
 
 </Project>
