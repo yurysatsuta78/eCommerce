@@ -1,0 +1,16 @@
+﻿using Microsoft.Extensions.DependencyInjection;
+using Orders.Domain.Interfaces;
+using Orders.Infrastructure.Repositories;
+
+namespace Orders.Infrastructure.DI
+{
+    public static class RepositoryExtension
+    {
+        public static IServiceCollection AddRepositories(this IServiceCollection services) 
+        {
+            services.AddScoped<IOrdersRepository, OrdersRepository>();
+
+            return services;
+        }
+    }
+}
