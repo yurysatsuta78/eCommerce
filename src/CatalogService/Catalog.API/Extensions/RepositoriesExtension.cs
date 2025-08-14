@@ -7,9 +7,9 @@ namespace Catalog.API.Extensions
     {
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
-            services.AddScoped<ICatalogItemRepository, CatalogItemRepository>();
-            services.AddScoped<ICatalogBrandRepository, CatalogBrandRepository>();
-            services.AddScoped<ICatalogCategoryRepository, CatalogCategoryRepository>();
+            services.AddScoped<IProductsRepository, ProductsRepository>();
+            services.AddScoped<IBrandsRepository, BrandsRepository>();
+            services.AddScoped<ICategoriesRepository, CategoriesRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return services;

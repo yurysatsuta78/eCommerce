@@ -7,9 +7,9 @@ namespace Catalog.API.Extensions
     {
         public static IServiceCollection AddBLLServices(this IServiceCollection services)
         {
-            services.AddScoped<ICatalogItemService, CatalogItemService>();
-            services.AddScoped<ICatalogBrandService, CatalogBrandService>();
-            services.AddScoped<ICatalogCategoryService, CatalogCategoryService>();
+            services.AddScoped<IProductsService, ProductsService>();
+            services.AddScoped<IBrandsService, BrandsService>();
+            services.AddScoped<ICategoriesService, CategoriesService>();
 
             return services;
         }

@@ -7,10 +7,10 @@ namespace Catalog.BLL.Services.gRPC
 {
     public class CatalogItemsInfoService : CatalogService.CatalogServiceBase
     {
-        private readonly ICatalogItemRepository _catalogItemRepository;
+        private readonly IProductsRepository _catalogItemRepository;
         private readonly IMapper _mapper;
 
-        public CatalogItemsInfoService(ICatalogItemRepository catalogItemRepository, IMapper mapper)
+        public CatalogItemsInfoService(IProductsRepository catalogItemRepository, IMapper mapper)
         {
             _catalogItemRepository = catalogItemRepository;
             _mapper = mapper;

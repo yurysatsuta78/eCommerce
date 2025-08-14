@@ -1,4 +1,4 @@
-﻿using Catalog.BLL.MappingProfiles.CatalogItemMappingProfiles;
+﻿using Catalog.BLL.MappingProfiles.ProductProfiles;
 
 namespace Catalog.API.Extensions
 {
@@ -6,7 +6,7 @@ namespace Catalog.API.Extensions
     {
         public static IServiceCollection AddMapper(this IServiceCollection services)
         {
-            services.AddAutoMapper(assembly => assembly.AddMaps(typeof(CatalogItemProfile).Assembly));
+            services.AddAutoMapper(assembly => assembly.AddMaps(typeof(ProductProfile).Assembly));
 
             return services;
         }

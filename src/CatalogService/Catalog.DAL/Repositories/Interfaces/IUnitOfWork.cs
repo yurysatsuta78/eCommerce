@@ -2,8 +2,8 @@
 {
     public interface IUnitOfWork
     {
-        ICatalogBrandRepository CatalogBrandRepository { get; }
-        ICatalogCategoryRepository CatalogCategoryRepository { get; }
-        ICatalogItemRepository CatalogItemRepository { get; }
+        IBrandsRepository BrandsRepository { get; }
+        ICategoriesRepository CategoriesRepository { get; }
+        IProductsRepository ProductsRepository { get; }
     }
 }

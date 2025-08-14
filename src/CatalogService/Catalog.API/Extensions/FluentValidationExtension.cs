@@ -1,6 +1,6 @@
-﻿using Catalog.BLL.Validators.CatalogItem;
-using FluentValidation.AspNetCore;
+﻿using FluentValidation.AspNetCore;
 using FluentValidation;
+using Catalog.BLL.Validators.ProductValidators;
 
 namespace Catalog.API.Extensions
 {
@@ -9,7 +9,7 @@ namespace Catalog.API.Extensions
         public static IServiceCollection AddValidators(this IServiceCollection services)
         {
             services.AddFluentValidationAutoValidation();
-            services.AddValidatorsFromAssemblyContaining<CreateCatalogItemRequestValidator>();
+            services.AddValidatorsFromAssemblyContaining<CreateProductDTOValidator>();
 
             return services;
         }

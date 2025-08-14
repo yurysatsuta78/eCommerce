@@ -4,16 +4,16 @@ namespace Catalog.DAL.Repositories.Implementations
 {
     public class UnitOfWork : IUnitOfWork
     {
-        public ICatalogBrandRepository CatalogBrandRepository { get; }
-        public ICatalogCategoryRepository CatalogCategoryRepository { get; }
-        public ICatalogItemRepository CatalogItemRepository { get; }
+        public IBrandsRepository BrandsRepository { get; }
+        public ICategoriesRepository CategoriesRepository { get; }
+        public IProductsRepository ProductsRepository { get; }
 
-        public UnitOfWork(ICatalogBrandRepository catalogBrandRepository, ICatalogCategoryRepository catalogCategoryRepository,
-            ICatalogItemRepository catalogItemRepository)
+        public UnitOfWork(IBrandsRepository catalogBrandRepository, ICategoriesRepository catalogCategoryRepository,
+            IProductsRepository catalogItemRepository)
         {
-            CatalogBrandRepository = catalogBrandRepository;
-            CatalogCategoryRepository = catalogCategoryRepository;
-            CatalogItemRepository = catalogItemRepository;
+            BrandsRepository = catalogBrandRepository;
+            CategoriesRepository = catalogCategoryRepository;
+            ProductsRepository = catalogItemRepository;
         }
     }
 }
