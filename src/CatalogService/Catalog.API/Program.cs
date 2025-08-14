@@ -1,5 +1,6 @@
 using Catalog.API.Extensions;
 using Catalog.API.Middleware;
+using Catalog.BLL.Services;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,12 +23,15 @@ services.AddControllers();
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
 
+services.AddHostedService<MessageBrokerSubscriptionService>();
+
 services
     .AddDatabase(builder.Configuration)
     .AddBLLServices()
     .AddMapper()
     .AddRepositories()
     .AddValidators()
+    .AddRabbitMq()
     .AddGrpc();
 
 var app = builder.Build();

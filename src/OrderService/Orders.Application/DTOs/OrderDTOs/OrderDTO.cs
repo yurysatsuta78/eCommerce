@@ -1,6 +1,6 @@
 ﻿using Orders.Domain.Enums;
 
-namespace Orders.Application.DTOs.Order
+namespace Orders.Application.DTOs.OrderDTOs
 {
     public record OrderDTO
     {

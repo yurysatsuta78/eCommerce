@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Orders.Application.DTOs.Basket;
+using Orders.Application.DTOs.BasketDTOs;
 
 namespace Orders.Application.Validators
 {

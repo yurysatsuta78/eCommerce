@@ -6,8 +6,8 @@ namespace Basket.API.Extensions
     {
         public static IServiceCollection AddRedisCache(this IServiceCollection services, IConfiguration configuration) 
         {
-            var connectionString = Environment.GetEnvironmentVariable("BASKET_CONNECTION")
-                ?? throw new InvalidOperationException($"Basket connection string not found in the environment.");
+            var connectionString = configuration.GetConnectionString("BASKET_CONNECTION")
+                ?? throw new InvalidOperationException($"Basket connection string not found in configuration.");
 
             services.AddStackExchangeRedisCache(options =>
             {
@@ -15,13 +15,10 @@ namespace Basket.API.Extensions
                 options.InstanceName = "BasketService:";
             });
 
+            var expiryDays = configuration.GetValue<int>("EXPIRY_DAYS");
+
             services.Configure<RedisOptions>(options => 
             {
-                var expiryDaysEnv = Environment.GetEnvironmentVariable("EXPIRY_DAYS");
-
-                if (!int.TryParse(expiryDaysEnv, out var expiryDays))
-                    throw new InvalidOperationException("Invalid or missing EXPIRY_DAYS");
-
                 options.ExpiryDays = expiryDays;
             });
 

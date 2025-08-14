@@ -2,15 +2,9 @@
 
 namespace MessageBroker.Abstraction.Events
 {
-    public abstract class IntegrationEvent : IMessage
+    public abstract record IntegrationEvent : IMessage
     {
-        public Guid Id { get; init; }
-        public DateTime CreationDate { get; init; }
-
-        protected IntegrationEvent()
-        {
-            Id = Guid.NewGuid();
-            CreationDate = DateTime.UtcNow;
-        }
+        public Guid Id { get; init; } = Guid.NewGuid();
+        public DateTime CreationDate { get; init; } = DateTime.UtcNow;
     }
 }

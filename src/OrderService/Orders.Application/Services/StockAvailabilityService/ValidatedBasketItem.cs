@@ -1,7 +1,7 @@
-﻿using Orders.Application.DTOs.Basket;
-using Orders.Application.DTOs.Catalog;
+﻿using Orders.Application.DTOs.BasketDTOs;
+using Orders.Application.DTOs.CatalogDTOs;
 
 namespace Orders.Application.Services.StockAvailabilityService
 {
-    public record ValidatedBasketItem(BasketItemDTO BasketItem, CatalogItemDTO CatalogItem);
+    public record ValidatedBasketItem(BasketItemDTO BasketItem, ProductInfoDTO CatalogItem);
 }

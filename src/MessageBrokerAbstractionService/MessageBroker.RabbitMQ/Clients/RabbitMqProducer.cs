@@ -27,28 +27,17 @@ namespace MessageBroker.RabbitMQ.Clients
                 throw new ObjectDisposedException(nameof(RabbitMqProducer)); 
             }
 
+            using var channel = _connection.CreateModel();
+
+            channel.ExchangeDeclare(exchange, ExchangeType.Topic, durable: true);
+
             try
             {
-                using var channel = _connection.CreateModel();
-
-                channel.ExchangeDeclare(
-                    exchange: exchange, 
-                    type: ExchangeType.Topic, 
-                    durable: true,
-                    autoDelete: false,
-                    arguments: null
-                );
-
                 var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
                 var properties = channel.CreateBasicProperties();
                 properties.Persistent = true;
 
-                channel.BasicPublish(
-                    exchange: exchange,
-                    routingKey: routingKey,
-                    basicProperties: properties,
-                    body: body
-                );
+                channel.BasicPublish(exchange, routingKey, properties, body);
 
                 _logger.LogInformation($"Published {typeof(TMessage).Name} to {exchange}/{routingKey}");
                 return Task.CompletedTask;
@@ -65,16 +54,8 @@ namespace MessageBroker.RabbitMQ.Clients
             if (_disposed) return;
             _disposed = true;
 
-            try
-            {
-                _connection?.Close();
-                _connection?.Dispose();
-                _logger.LogInformation($"{nameof(RabbitMqProducer)} disposed");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Error disposing connection in {nameof(RabbitMqProducer)}");
-            }
+            _connection.Close();
+            _connection.Dispose();
         }
     }
 }

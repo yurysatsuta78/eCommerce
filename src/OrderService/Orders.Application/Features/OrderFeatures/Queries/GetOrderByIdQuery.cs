@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Orders.Application.DTOs.Order;
+using Orders.Application.DTOs.OrderDTOs;
 
 namespace Orders.Application.Features.OrderFeatures.Queries
 {

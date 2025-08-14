@@ -1,6 +1,6 @@
-﻿namespace Orders.Application.DTOs.Catalog
+﻿namespace Orders.Application.DTOs.CatalogDTOs
 {
-    public record CatalogItemDTO
+    public record ProductInfoDTO
     {
         public Guid Id { get; init; }
         public string Name { get; init; } = default!;

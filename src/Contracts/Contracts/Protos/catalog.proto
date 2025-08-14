@@ -1,0 +1,24 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Contracts.ProtoBase";
+
+package catalog;
+
+service CatalogService {
+    rpc GetProductsByIds (GetProductsRequest) returns (GetProductsResponse);
+}
+
+message GetProductsRequest {
+    repeated string product_ids = 1;
+}
+
+message ProductInfoDTO {
+    string id = 1;
+    string name = 2;
+    double price = 3;
+    int32 available_stock = 4;
+}
+
+message GetProductsResponse {
+    repeated ProductInfoDTO items = 1;
+}

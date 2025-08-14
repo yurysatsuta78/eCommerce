@@ -1,7 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Text;
 using MessageBroker.Abstraction.Contracts;
-using MessageBroker.Abstraction.Exceptions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -14,16 +13,15 @@ namespace MessageBroker.RabbitMQ.Clients
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly ILogger<RabbitMqConsumer> _logger;
-        private IConnection _connection;
-
-        private readonly ConcurrentDictionary<Guid, IModel> _consumerChannels = new();
+        private readonly IConnection _connection;
+        private readonly ConcurrentDictionary<string, IModel> _channels = new();
         private bool _disposed;
 
         public RabbitMqConsumer(IConnectionFactory connectionFactory, IServiceProvider serviceProvider, ILogger<RabbitMqConsumer> logger) 
         {
             _connection = connectionFactory.CreateConnection();
-            _logger = logger;
             _serviceProvider = serviceProvider;
+            _logger = logger;
         }
 
         public Task SubscribeAsync<TMessage, THandler>(string exchange, string routingKey, string queue)
@@ -36,52 +34,47 @@ namespace MessageBroker.RabbitMQ.Clients
             }
 
             var channel = _connection.CreateModel();
-            _consumerChannels.TryAdd(Guid.NewGuid(), channel);
+            _channels.TryAdd(queue, channel);
 
-            channel.ExchangeDeclare(
-                exchange: exchange,
-                type: ExchangeType.Topic,
-                durable: true,
-                autoDelete: false,
-                arguments: null
-            );
-            channel.QueueDeclare(queue: queue, durable: true, exclusive: false, autoDelete: false);
-            channel.QueueBind(queue: queue, exchange: exchange, routingKey: routingKey);
+            channel.ExchangeDeclare(exchange, ExchangeType.Topic, durable: true);
+            channel.QueueDeclare(queue, durable: true, exclusive: false, autoDelete: false);
+            channel.QueueBind(queue, exchange, routingKey);
 
             var consumer = new AsyncEventingBasicConsumer(channel);
-
             consumer.Received += async (_, ea) =>
             {
                 using var scope = _serviceProvider.CreateScope();
-                var handler = scope.ServiceProvider.GetRequiredService<THandler>();
 
                 try
                 {
-                    var json = Encoding.UTF8.GetString(ea.Body.ToArray());
-                    var message = JsonConvert.DeserializeObject<TMessage>(json);
+                    var handler = scope.ServiceProvider.GetRequiredService<THandler>();
 
-                    if (message == null)
-                    {
-                        _logger.LogError($"Failed to deserialize message to {typeof(TMessage).Name}");
-                        channel.BasicNack(ea.DeliveryTag, false, false);
-                        return;
-                    }
+                    var json = Encoding.UTF8.GetString(ea.Body.ToArray());
+                    var message = JsonConvert.DeserializeObject<TMessage>(json)
+                        ?? throw new JsonException($"Deserialized {typeof(TMessage).Name} message is null");
 
                     await handler.HandleAsync(message);
                     channel.BasicAck(ea.DeliveryTag, false);
                 }
+                catch (Exception ex) when (ex is InvalidOperationException || ex is KeyNotFoundException)
+                {
+                    _logger.LogError(ex, $"Handler {typeof(THandler).Name} is not registered in DI");
+                    channel.BasicNack(ea.DeliveryTag, false, false);
+                }
+                catch (JsonException ex) 
+                {
+                    _logger.LogError(ex, $"Failed to deserialize message {typeof(THandler).Name}");
+                    channel.BasicNack(ea.DeliveryTag, false, false);
+                }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, $"Error while processing {typeof(TMessage).Name} message");
+                    _logger.LogError(ex, $"Error while handling message {typeof(THandler).Name} in handler {typeof(THandler).Name}");
                     channel.BasicNack(ea.DeliveryTag, false, false);
-                    throw new MessageProcessingException($"Error while processing {typeof(TMessage).Name} message", ex);
                 }
             };
 
             channel.BasicConsume(queue, false, consumer);
-
-            _logger.LogInformation($"{nameof(RabbitMqConsumer)} subscribed to {typeof(TMessage).Name} on {queue}");
-
+            _logger.LogInformation("Subscribed to {Queue}", queue);
             return Task.CompletedTask;
         }
 
@@ -90,29 +83,14 @@ namespace MessageBroker.RabbitMQ.Clients
             if (_disposed) return;
             _disposed = true;
 
-            foreach (var pair in _consumerChannels)
+            foreach (var channel in _channels.Values)
             {
-                try
-                {
-                    pair.Value?.Close();
-                    pair.Value?.Dispose();
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, $"Error disposing consumer channel {pair.Key}");
-                }
+                channel.Close();
+                channel.Dispose();
             }
 
-            try
-            {
-                _connection?.Close();
-                _connection?.Dispose();
-                _logger.LogInformation($"{nameof(RabbitMqConsumer)} disposed");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Error disposing connection in {nameof(RabbitMqConsumer)}");
-            }
+            _connection.Close();
+            _connection.Dispose();
         }
     }
 }

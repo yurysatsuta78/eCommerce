@@ -1,4 +1,4 @@
-﻿namespace Orders.Application.DTOs.Basket
+﻿namespace Orders.Application.DTOs.BasketDTOs
 {
     public record BasketDTO
     {

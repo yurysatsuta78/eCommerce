@@ -10,7 +10,7 @@ namespace Orders.Infrastructure
         {
             services.AddDatabase(configuration);
             services.AddAutoMapper();
-            services.AddGrpcClients();
+            services.AddGrpcClients(configuration);
             services.AddRabbitMq();
             services.AddRepositories();
 

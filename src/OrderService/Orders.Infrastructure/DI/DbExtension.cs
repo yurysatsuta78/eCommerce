@@ -9,8 +9,8 @@ namespace Orders.Infrastructure.DI
     {
         public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration) 
         {
-            var connectionString = Environment.GetEnvironmentVariable("ORDERS_CONNECTION")
-                ?? throw new InvalidOperationException($"Orders connection string not found in the environment.");
+            var connectionString = configuration.GetConnectionString("ORDERS_CONNECTION")
+                ?? throw new InvalidOperationException($"Orders connection string not found in configuration.");
 
             services.AddDbContext<OrdersDbContext>(options =>
             {

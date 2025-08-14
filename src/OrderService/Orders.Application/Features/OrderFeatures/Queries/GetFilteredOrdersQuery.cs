@@ -1,11 +1,10 @@
 ﻿using MediatR;
-using Orders.Application.DTOs;
-using Orders.Application.DTOs.Order;
+using Orders.Application.DTOs.OrderDTOs;
 
 namespace Orders.Application.Features.OrderFeatures.Queries
 {
-    public record GetFilteredOrdersQuery : IRequest<PaginatedItemsDTO>
+    public record GetFilteredOrdersQuery : IRequest<PaginatedOrders>
     {
-        public OrderFilterParamsDTO Filter { get; init; } = default!;
+        public GetFilteredOrdersDTO Dto { get; init; } = default!;
     }
 }

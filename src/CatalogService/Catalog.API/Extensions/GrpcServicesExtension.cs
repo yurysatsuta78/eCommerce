@@ -1,4 +1,4 @@
-﻿using Catalog.BLL.Services.gRPC;
+﻿using Catalog.BLL.Services;
 
 namespace Catalog.API.Extensions
 {
@@ -6,7 +6,7 @@ namespace Catalog.API.Extensions
     {
         public static WebApplication MapGrpcServices(this WebApplication webApplication) 
         {
-            webApplication.MapGrpcService<CatalogItemsInfoService>();
+            webApplication.MapGrpcService<ProductsInfoService>();
 
             return webApplication;
         }

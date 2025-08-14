@@ -7,11 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Protobuf Include="..\..\GrpcContracts\Grpc.Contracts\Protos\catalog.proto" GrpcServices="Server" />
+    <Protobuf Include="..\..\Contracts\Contracts\Protos\catalog.proto" GrpcServices="Server" />
   </ItemGroup>
 	
   <ItemGroup>
-    <ProjectReference Include="..\..\GrpcContracts\Grpc.Contracts\Grpc.Contracts.csproj" />
+    <ProjectReference Include="..\..\Contracts\Contracts\Contracts.csproj" />
+    <ProjectReference Include="..\..\MessageBrokerAbstractionService\MessageBroker.Abstraction\MessageBroker.Abstraction.csproj" />
     <ProjectReference Include="..\Catalog.DAL\Catalog.DAL.csproj" />
   </ItemGroup>
 

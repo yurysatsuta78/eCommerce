@@ -1,31 +1,31 @@
-﻿using Orders.Application.DTOs.Basket;
-using Orders.Application.DTOs.Catalog;
+﻿using Orders.Application.DTOs.BasketDTOs;
+using Orders.Application.DTOs.CatalogDTOs;
 
 namespace Orders.Application.Services.StockAvailabilityService
 {
     public class StockAvailabilityService : IStockAvailabilityService
     {
         public IEnumerable<ValidatedBasketItem> CheckAvailability(IEnumerable<BasketItemDTO> basketItems, 
-            IEnumerable<CatalogItemDTO> catalogItems)
+            IEnumerable<ProductInfoDTO> products)
         {
-            var catalogDict = catalogItems.ToDictionary(ci => ci.Id);
+            var productsDict = products.ToDictionary(ci => ci.Id);
 
             foreach (var basketItem in basketItems)
             {
-                if (!catalogDict.TryGetValue(basketItem.ItemId, out var catalogItem))
+                if (!productsDict.TryGetValue(basketItem.ItemId, out var product))
                 {
                     throw new InvalidOperationException($"Item {basketItem.ItemId} not found in catalog.");
                 }
 
-                if (catalogItem.AvailableStock < basketItem.Quantity)
+                if (product.AvailableStock < basketItem.Quantity)
                 {
                     throw new InvalidOperationException(
-                        $"Insufficient stock for \"{catalogItem.Name}\". " +
-                        $"Available: {catalogItem.AvailableStock}, " +
+                        $"Insufficient stock for \"{product.Name}\". " +
+                        $"Available: {product.AvailableStock}, " +
                         $"Required: {basketItem.Quantity}.");
                 }
 
-                yield return new ValidatedBasketItem(basketItem, catalogItem);
+                yield return new ValidatedBasketItem(basketItem, product);
             }
         }
     }

@@ -2,7 +2,7 @@
 using Catalog.BLL.DTOs.ProductDTOs;
 using Catalog.BLL.Models;
 using Catalog.DAL.Models;
-using Grpc.Contracts.ProtoBase;
+using Contracts.ProtoBase;
 
 namespace Catalog.BLL.MappingProfiles.ProductProfiles
 {
@@ -21,9 +21,10 @@ namespace Catalog.BLL.MappingProfiles.ProductProfiles
             CreateMap<ProductDb, ProductDTO>()
                 .ForMember(dest => dest.AvailableStock, opt => opt.MapFrom(src => src.InStock - src.ReservedStock));
 
-            CreateMap<ProductDb, CatalogItemDTO>()
+            CreateMap<ProductDb, ProductInfoDTO>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
-                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => Convert.ToDouble(src.Price)));
+                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => Convert.ToDouble(src.Price)))
+                .ForMember(dest => dest.AvailableStock, opt => opt.MapFrom(src => src.InStock - src.ReservedStock));
         }
     }
 }

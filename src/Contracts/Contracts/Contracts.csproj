@@ -13,5 +13,13 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+	
+  <ItemGroup>
+    <ProjectReference Include="..\..\MessageBrokerAbstractionService\MessageBroker.Abstraction\MessageBroker.Abstraction.csproj" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <Folder Include="Messaging\Messages\Catalog\" />
+  </ItemGroup>
 
 </Project>

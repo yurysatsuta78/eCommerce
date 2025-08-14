@@ -1,8 +1,6 @@
-﻿using Orders.Application.DTOs.Order;
-
-namespace Orders.Application.DTOs
+﻿namespace Orders.Application.DTOs.OrderDTOs
 {
-    public record PaginatedItemsDTO
+    public record PaginatedOrders
     {
         public IEnumerable<OrderDTO> Items { get; init; }
         public int TotalItems { get; init; }
@@ -10,7 +8,7 @@ namespace Orders.Application.DTOs
         public int PageSize { get; init; }
         public int TotalPages => (int)Math.Ceiling((double)TotalItems / PageSize);
 
-        public PaginatedItemsDTO(IEnumerable<OrderDTO> items, int totalItems, int pageNumber, int pageSize)
+        public PaginatedOrders(IEnumerable<OrderDTO> items, int totalItems, int pageNumber, int pageSize)
         {
             Items = items;
             TotalItems = totalItems;

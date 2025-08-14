@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Orders.Application.DTOs.Order;
+using OrderDTO = Orders.Application.DTOs.OrderDTOs.OrderDTO;
 using OrderDomain = Orders.Domain.Models.Order;
 
 namespace Orders.Infrastructure.MappingProfiles.Order

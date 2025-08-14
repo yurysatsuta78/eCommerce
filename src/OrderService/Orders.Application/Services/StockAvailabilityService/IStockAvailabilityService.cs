@@ -1,5 +1,5 @@
-﻿using Orders.Application.DTOs.Basket;
-using Orders.Application.DTOs.Catalog;
+﻿using Orders.Application.DTOs.BasketDTOs;
+using Orders.Application.DTOs.CatalogDTOs;
 
 namespace Orders.Application.Services.StockAvailabilityService
 {
@@ -7,6 +7,6 @@ namespace Orders.Application.Services.StockAvailabilityService
     {
         IEnumerable<ValidatedBasketItem> CheckAvailability(
             IEnumerable<BasketItemDTO> basketItems, 
-            IEnumerable<CatalogItemDTO> catalogItems);
+            IEnumerable<ProductInfoDTO> catalogItems);
     }
 }
