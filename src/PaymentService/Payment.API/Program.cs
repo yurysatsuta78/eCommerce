@@ -1,9 +1,13 @@
+using Payment.API.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
 services.AddControllers();
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
+
+services.AddMongoDb(builder.Configuration);
 
 var app = builder.Build();
 
