@@ -6,6 +6,7 @@ namespace Payment.DAL.Repositories.Interfaces
     public interface IReceiptRepository
     {
         Task<IEnumerable<ReceiptDb>> GetFilteredAsync(ReceiptQueryParams filter, CancellationToken cancellationToken);
+        Task<long> GetCountAsync(ReceiptQueryParams filter, CancellationToken cancellationToken);
         Task<ReceiptDb?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
         Task CreateAsync(ReceiptDb receipt, CancellationToken cancellationToken);
     }

@@ -7,7 +7,10 @@ services.AddControllers();
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
 
-services.AddMongoDb(builder.Configuration);
+services
+    .AddMongoDb(builder.Configuration)
+    .AddBLLServices()
+    .AddMapper();
 
 var app = builder.Build();
 

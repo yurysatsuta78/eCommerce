@@ -34,6 +34,17 @@ namespace Payment.DAL.Repositories.Implementations
             return receipts;
         }
 
+        public Task<long> GetCountAsync(ReceiptQueryParams filter, CancellationToken cancellationToken) 
+        {
+            var builder = new ReceiptQueryBuilder()
+                .ByOrderId(filter.OrderId)
+                .ByStatus(filter.Status);
+
+            var filterQuery = builder.Build();
+
+            return _collection.CountDocumentsAsync(filterQuery, cancellationToken: cancellationToken);
+        }
+
         public async Task<ReceiptDb?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var receipt = await _collection

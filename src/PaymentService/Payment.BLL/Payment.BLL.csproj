@@ -10,4 +10,12 @@
     <ProjectReference Include="..\Payment.DAL\Payment.DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DTOs\PaymentDTOs\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="15.0.1" />
+  </ItemGroup>
+
 </Project>
